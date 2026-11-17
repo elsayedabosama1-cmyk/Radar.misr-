@@ -1,0 +1,142 @@
+<!DOCTYPE html><html lang="ar" dir="rtl"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>رادار مصر</title>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#0a1f5c"><link rel="apple-touch-icon" href="icon-192.png">
+<style>
+:root{--navy:#0a1f5c;--blue:#1e5bd8;--red:#d4202c;--bg:#f1f4fa;--card:#fff;--tx:#10131c;--mut:#5b6478;--ln:#dfe4f0;--fs:1}
+body.dark{--bg:#0a0f20;--card:#131a30;--tx:#eef1fa;--mut:#9aa5c0;--ln:#232c48}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html{font-size:calc(16px*var(--fs))}
+body{font-family:"Noto Sans Arabic","Segoe UI",Tahoma,sans-serif;background:var(--bg);color:var(--tx);line-height:1.7;padding-bottom:30px}
+header{position:sticky;top:0;z-index:5;background:linear-gradient(135deg,var(--navy),var(--blue));color:#fff;padding:8px 14px;display:flex;align-items:center;gap:8px}
+header img{width:46px;height:46px;border-radius:50%;border:2px solid #fff}
+header h1{font-size:1.3rem;flex:1;font-weight:800}
+.ib{background:rgba(255,255,255,.16);border:0;color:#fff;width:38px;height:38px;border-radius:50%;display:grid;place-items:center}
+#tk{background:var(--red);color:#fff;display:flex;align-items:center;gap:10px;padding:6px 14px;font-weight:700;font-size:.95rem}
+#tk b{display:inline-flex;align-items:center;gap:8px;white-space:nowrap}
+#tk b:before{content:"";width:10px;height:10px;border-radius:50%;background:#fff;animation:p 1.4s infinite}
+@keyframes p{0%{box-shadow:0 0 0 0 rgba(255,255,255,.85)}100%{box-shadow:0 0 0 11px rgba(255,255,255,0)}}
+@media(prefers-reduced-motion:reduce){#tk b:before{animation:none}}
+#tt{overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#tabs,.sub{display:flex;gap:8px;overflow-x:auto;padding:10px 12px;position:sticky;top:62px;background:var(--bg);z-index:4}
+#tabs button,.sub button{flex:none;border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:20px;padding:5px 16px;font:inherit;font-weight:600}
+#tabs button.on,.sub button.on{background:var(--blue);border-color:var(--blue);color:#fff}
+#v{padding:4px 12px 20px;max-width:720px;margin:auto}
+.card{background:var(--card);border-radius:14px;overflow:hidden;margin-bottom:14px;border:1px solid var(--ln)}
+.im,.hero{position:relative;height:190px;background-size:cover;background-position:center}
+.hero{height:230px;border-radius:12px;margin-bottom:10px}
+.wm{position:absolute;left:8px;bottom:8px;width:34px;height:34px;border-radius:50%;border:2px solid #fff;background:url(logo.jpg) center/cover}
+.cb{padding:10px 14px 12px}.cb h3{font-size:1.08rem;line-height:1.6;margin:4px 0}
+.tg{display:inline-block;background:var(--blue);color:#fff;font-size:.78rem;font-weight:700;border-radius:6px;padding:0 10px}
+.tg.br{background:var(--red)}
+.mut,small{color:var(--mut)}.empty{text-align:center;color:var(--mut);padding:40px 0}
+#sh{position:fixed;inset:0;background:var(--bg);z-index:9;overflow:auto;padding:12px;display:none}
+#sh.on{display:block}
+.art{max-width:720px;margin:auto}.art h2{font-size:1.4rem;line-height:1.6;margin:8px 0}
+.body{margin:14px 0;font-size:1.05rem;line-height:2}
+.bar{display:flex;gap:8px;margin-bottom:10px}
+.bar button,.acts button,.ob{border:1px solid var(--ln);background:var(--card);color:var(--tx);border-radius:10px;padding:6px 14px;font:inherit}
+.sig{display:flex;align-items:center;gap:8px;border-top:1px solid var(--ln);padding-top:10px;font-weight:800;color:var(--blue)}
+.sig img{width:30px;height:30px;border-radius:50%}
+.box{max-width:340px;margin:25vh auto 0;display:grid;gap:10px}
+.pb{background:var(--red);color:#fff;border:0;border-radius:10px;padding:10px;font:inherit;font-weight:700}
+input,select,textarea{width:100%;font:inherit;padding:9px 10px;border:1px solid var(--ln);border-radius:10px;background:var(--card);color:var(--tx)}
+.form{display:grid;gap:6px}.form label{font-weight:700;margin-top:6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.modes{display:flex;gap:16px}.modes input,.pgs input{width:auto}
+.pgs{display:grid;gap:2px;max-height:170px;overflow:auto;border:1px solid var(--ln);border-radius:10px;padding:8px}
+#pv img{max-width:100%;border-radius:10px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;background:var(--card);border:1px solid var(--ln);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.acts{display:flex;gap:6px;flex:none}.acts .dl{color:var(--red)}
+.st.published{color:#188038}.st.pending{color:#b26a00}.st.scheduled{color:var(--blue)}
+.kp{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:8px 0}
+.kp div{background:var(--card);border:1px solid var(--ln);border-radius:12px;text-align:center;padding:12px}.kp b{display:block;font-size:1.8rem;color:var(--blue)}
+h4{margin:14px 0 6px}.bars{display:grid;grid-template-columns:70px 1fr 30px;align-items:center;gap:8px}.bars i{height:10px;background:var(--red);border-radius:5px}
+#ts{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#10131c;color:#fff;padding:8px 18px;border-radius:20px;opacity:0;pointer-events:none;z-index:20;transition:opacity .2s}
+#ts.on{opacity:1}
+</style></head><body>
+<header><img src="logo.jpg" alt=""><h1>رادار مصر</h1>
+<button class="ib" aria-label="بحث" onclick="srch()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
+<button class="ib" aria-label="الوضع الليلي" onclick="D.dark=!D.dark;save();render()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg></button>
+<button class="ib" aria-label="الإدارة" onclick="adm()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/></svg></button></header>
+<div id="tk"><b>عاجل</b><span id="tt"></span></div>
+<div id="ins" style="display:none;background:var(--blue);color:#fff;padding:6px 14px;align-items:center;justify-content:space-between;font-weight:700"><span>ثبّت رادار مصر على موبايلك</span><button onclick="inst()" style="border:0;border-radius:8px;padding:4px 14px;font:inherit;font-weight:700">تثبيت</button></div>
+<nav id="tabs"></nav><main id="v"></main><div id="sh"></div><div id="ts"></div>
+<script>
+const CATS=['سياسة','فن','اقتصادي','رياضة','ترندات','حوادث','عاجل'];
+const PAGES=['بتوقيت المحله','By the way','احنا معاك يا بلال','رادار مصر','حزب التجمع','Elsayed Mohamed','راصد الشارع','بصمه تاتيه','عين مصر','كامب إعداد القائد الصغير'];
+const STL={published:'منشور',draft:'مسودة',pending:'بانتظار الاعتماد',scheduled:'مجدول'};
+const $=s=>document.querySelector(s),now=()=>Date.now();
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let D,S={cat:'الكل',q:'',admin:0,tab:'list',role:null,edit:null,img:''},tki=0;
+function seed(){const t=now();return[['عاجل','مرحبًا بكم في رادار مصر','هذا خبر تجريبي لتجربة التطبيق. احذفه من لوحة الإدارة وابدأ نشر أخبارك.'],['سياسة','خبر سياسي تجريبي','نص تجريبي يوضح شكل الخبر داخل قسم السياسة.'],['رياضة','خبر رياضي تجريبي','نص تجريبي يوضح شكل الخبر داخل قسم الرياضة.']].map((x,i)=>({id:'s'+i,cat:x[0],t:x[1],b:x[2],st:'published',at:t-i*6e5,v:0,h:[],fb:[],au:'',src:'',img:''}))}
+function load(){try{D=JSON.parse(localStorage.getItem('rm')||'null')}catch(e){D=null}if(!D){D={news:seed(),pin:'1234',rpin:'0000',dark:0,fs:1,saved:[]};save()}}
+function save(){try{localStorage.setItem('rm',JSON.stringify(D))}catch(e){toast('المساحة ممتلئة')}}
+function toast(m){const e=$('#ts');e.textContent=m;e.className='on';clearTimeout(toast.t);toast.t=setTimeout(()=>e.className='',2400)}
+function sheet(h){$('#sh').innerHTML=h;$('#sh').className='on'}
+function closeSheet(){$('#sh').className=''}
+function push(t){if(window.Android&&Android.push)Android.push('رادار مصر',t);else if('Notification' in window&&Notification.permission==='granted'&&navigator.serviceWorker)navigator.serviceWorker.ready.then(r=>r.showNotification('رادار مصر',{body:t,icon:'icon-192.png'}))}
+function ago(t){const m=Math.floor((now()-t)/6e4);return m<1?'الآن':m<60?'منذ '+m+' دقيقة':m<1440?'منذ '+Math.floor(m/60)+' ساعة':new Date(t).toLocaleDateString('ar-EG')}
+const toLocal=t=>new Date(t-new Date(t).getTimezoneOffset()*6e4).toISOString().slice(0,16);
+const pub=()=>D.news.filter(n=>n.st==='published').sort((a,b)=>b.at-a.at);
+function ticker(){const l=pub().filter(n=>n.cat==='عاجل').slice(0,5),e=$('#tk');if(!l.length){e.style.display='none';return}e.style.display='flex';tki=(tki+1)%l.length;$('#tt').textContent=l[tki].t}
+function render(){document.body.classList.toggle('dark',!!D.dark);document.documentElement.style.setProperty('--fs',D.fs);$('#tabs').style.display=S.admin?'none':'flex';S.admin?renderAdmin():renderHome();ticker()}
+function card(n){return`<article class="card" onclick="openN('${n.id}')">${n.img?`<div class="im" style="background-image:url(${n.img})"><i class="wm"></i></div>`:''}<div class="cb"><span class="tg ${n.cat==='عاجل'?'br':''}">${n.cat}</span><h3>${esc(n.t)}</h3><small>${ago(n.at)} · ${n.v||0} قراءة</small></div></article>`}
+function renderHome(){
+ $('#tabs').innerHTML=['الكل',...CATS,'محفوظ'].map(c=>`<button class="${c===S.cat?'on':''}" onclick="S.cat='${c}';render()">${c}</button>`).join('');
+ let l=pub();if(S.cat==='محفوظ')l=l.filter(n=>D.saved.includes(n.id));else if(S.cat!=='الكل')l=l.filter(n=>n.cat===S.cat);
+ if(S.q)l=l.filter(n=>(n.t+n.b).includes(S.q));
+ $('#v').innerHTML=(S.q?`<p class="mut">نتائج البحث عن "${esc(S.q)}" <button class="ob" onclick="S.q='';render()">مسح</button></p>`:'')+(l.length?l.map(card).join(''):'<p class="empty">لا توجد أخبار هنا بعد.</p>')}
+function srch(){sheet(`<div class="box"><h3>بحث في الأخبار</h3><input id="sq" placeholder="اكتب كلمة البحث"><button class="pb" onclick="S.q=$('#sq').value.trim();closeSheet();render()">بحث</button><button class="ob" onclick="closeSheet()">إلغاء</button></div>`);setTimeout(()=>$('#sq').focus(),50)}
+function openN(id){const n=D.news.find(x=>x.id===id);if(!n)return;if(!S.admin&&n.st==='published'){n.v=(n.v||0)+1;save()}
+ sheet(`<div class="art"><div class="bar"><button onclick="closeSheet()">رجوع</button><button onclick="share('${id}')">مشاركة</button><button onclick="fav('${id}')">${D.saved.includes(id)?'إلغاء الحفظ':'حفظ'}</button></div>${n.img?`<div class="hero" style="background-image:url(${n.img})"><i class="wm"></i></div>`:''}<span class="tg ${n.cat==='عاجل'?'br':''}">${n.cat}</span><h2>${esc(n.t)}</h2><small>${ago(n.at)}${n.au?' · '+esc(n.au):''}${n.src?' · المصدر: '+esc(n.src):''}</small><p class="body">${esc(n.b).replace(/\n/g,'<br>')}</p><div class="sig"><img src="logo.jpg" alt="">رادار مصر</div></div>`)}
+function share(id){const n=D.news.find(x=>x.id===id),t=n.t+'\n\n'+n.b.slice(0,300)+(n.b.length>300?'...':'')+'\n\n— رادار مصر';if(window.Android&&Android.share)Android.share(t);else if(navigator.share)navigator.share({text:t});else{try{navigator.clipboard.writeText(t)}catch(e){}toast('تم نسخ الخبر')}}
+function fav(id){const i=D.saved.indexOf(id);i<0?D.saved.push(id):D.saved.splice(i,1);save();closeSheet();toast(i<0?'تم الحفظ':'تم إلغاء الحفظ');render()}
+function adm(){if(S.admin){S.admin=0;render()}else if(S.role){S.admin=1;render()}else sheet(`<div class="box"><h3>دخول الإدارة</h3><select id="lr"><option value="chief">رئيس التحرير</option><option value="rep">مراسل</option></select><input id="lp" type="password" inputmode="numeric" placeholder="الرقم السري"><button class="pb" onclick="doLogin()">دخول</button><button class="ob" onclick="closeSheet()">إلغاء</button></div>`)}
+function doLogin(){const r=$('#lr').value,p=$('#lp').value;if(p===(r==='chief'?D.pin:D.rpin)){S.role=r;S.admin=1;S.tab='list';closeSheet();render()}else toast('الرقم السري غير صحيح')}
+function renderAdmin(){const T=[['list','الأخبار'],['new','خبر جديد'],['stats','إحصائيات'],['set','إعدادات']];
+ $('#v').innerHTML=`<div class="sub" style="top:62px">${T.map(t=>`<button class="${S.tab===t[0]?'on':''}" onclick="S.tab='${t[0]}';S.edit=null;S.img='';render()">${t[1]}</button>`).join('')}</div><div id="ad"></div>`;
+ ({list:aList,new:aNew,stats:aStats,set:aSet})[S.tab]()}
+function aList(){const l=[...D.news].sort((a,b)=>b.at-a.at);
+ $('#ad').innerHTML=(S.role==='rep'?'<p class="mut">أنت مراسل: أخبارك تذهب لرئيس التحرير للاعتماد قبل النشر.</p>':'')+(l.length?l.map(n=>`<div class="row"><div><b>${esc(n.t)}</b><br><small>${n.cat} · <span class="st ${n.st}">${STL[n.st]}</span>${n.st==='scheduled'?' · '+new Date(n.at).toLocaleString('ar-EG'):''}${n.fb&&n.fb.length?' · فيس بوك: في الانتظار ('+n.fb.length+')':''}</small></div><div class="acts">${n.st==='pending'&&S.role==='chief'?`<button onclick="appr('${n.id}')">اعتماد</button>`:''}<button onclick="ed('${n.id}')">تعديل</button>${S.role==='chief'?`<button class="dl" onclick="del('${n.id}')">حذف</button>`:''}</div></div>`).join(''):'<p class="empty">لا توجد أخبار. اضغط "خبر جديد".</p>')}
+function appr(id){const n=D.news.find(x=>x.id===id);if(n.later&&n.at>now())n.st='scheduled';else{n.st='published';n.at=now();n.later=0;push(n.t)}save();toast('تم الاعتماد');render()}
+function del(id){if(confirm('حذف الخبر نهائيًا؟')){D.news=D.news.filter(x=>x.id!==id);save();toast('تم الحذف');render()}}
+function ed(id){S.edit=id;S.tab='new';S.img=D.news.find(x=>x.id===id).img||'';render()}
+function aNew(){const n=S.edit?D.news.find(x=>x.id===S.edit):(JSON.parse(localStorage.getItem('rm_d')||'null')||{});
+ if(!S.edit&&n.img&&!S.img)S.img=n.img;
+ const fb=n.fb||[],mode=n.st==='draft'?'draft':n.later?'later':'now';
+ $('#ad').innerHTML=`<div class="form" oninput="autos()"><label>العنوان</label><input id="f_t" value="${esc(n.t)}"><label>القسم</label><select id="f_c">${CATS.map(c=>`<option ${c===n.cat?'selected':''}>${c}</option>`).join('')}</select><label>نص الخبر</label><textarea id="f_b" rows="8">${esc(n.b)}</textarea><label>صورة</label><input type="file" id="f_i" accept="image/*" onchange="pick(this)"><div id="pv">${S.img?`<img src="${S.img}" alt="">`:''}</div><div class="two"><div><label>المحرر / المراسل</label><input id="f_a" value="${esc(n.au)}"></div><div><label>المصدر</label><input id="f_s" value="${esc(n.src)}"></div></div><label>النشر</label><div class="modes">${[['now','الآن'],['later','جدولة'],['draft','مسودة']].map(m=>`<label><input type="radio" name="m" value="${m[0]}" ${m[0]===mode?'checked':''}> ${m[1]}</label>`).join('')}</div><input type="datetime-local" id="f_w" value="${n.later?toLocal(n.at):''}"><label>نشر على صفحات فيس بوك (اختياري)</label><div class="pgs">${PAGES.map(p=>`<label><input type="checkbox" class="fbp" value="${esc(p)}" ${fb.includes(p)?'checked':''}> ${esc(p)}</label>`).join('')}</div>${n.h&&n.h.length?`<label>إصدارات سابقة</label><select id="f_h">${n.h.map((h,i)=>`<option value="${i}">${new Date(h.w).toLocaleString('ar-EG')}</option>`).join('')}</select><button class="ob" onclick="restore()">استرجاع الإصدار</button>`:''}<button class="pb" onclick="saveNews()">${S.role==='rep'?'إرسال للاعتماد':'حفظ'}</button></div>`}
+function collect(){return{t:$('#f_t').value.trim(),b:$('#f_b').value.trim(),cat:$('#f_c').value,src:$('#f_s').value.trim(),au:$('#f_a').value.trim(),img:S.img||'',mode:document.querySelector('[name=m]:checked').value,when:$('#f_w').value,fb:[...document.querySelectorAll('.fbp:checked')].map(x=>x.value)}}
+function autos(){if(!S.edit)try{localStorage.setItem('rm_d',JSON.stringify(collect()))}catch(e){}}
+function pick(i){const f=i.files[0];if(!f)return;const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,900/im.width),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);S.img=c.toDataURL('image/jpeg',.72);$('#pv').innerHTML=`<img src="${S.img}" alt="">`;autos()};im.src=r.result};r.readAsDataURL(f)}
+function restore(){const n=D.news.find(x=>x.id===S.edit),h=n.h[$('#f_h').value];$('#f_t').value=h.t;$('#f_b').value=h.b;toast('تم استرجاع النص. اضغط حفظ')}
+function dup(t){const w=new Set(t.split(/\s+/));return D.news.some(n=>{if(n.st==='draft')return 0;const v=new Set(n.t.split(/\s+/)),i=[...w].filter(x=>v.has(x)).length;return i/(w.size+v.size-i)>.6})}
+function saveNews(){const f=collect();if(!f.t||!f.b)return toast('اكتب العنوان ونص الخبر');
+ let n=S.edit?D.news.find(x=>x.id===S.edit):null;
+ if(!n&&dup(f.t)&&!confirm('يوجد خبر شبيه بهذا العنوان. تكمل النشر؟'))return;
+ const later=f.mode==='later';let at=now();
+ if(later){at=new Date(f.when).getTime();if(!at||at<now())return toast('اختر موعدًا صحيحًا في المستقبل')}
+ const st=f.mode==='draft'?'draft':S.role==='rep'?'pending':later?'scheduled':'published';
+ const data={t:f.t,b:f.b,cat:f.cat,src:f.src,au:f.au,img:f.img,st,at,later:later?1:0,fb:f.fb};
+ if(n){n.h=(n.h||[]).concat([{t:n.t,b:n.b,w:now()}]).slice(-10);Object.assign(n,data)}
+ else D.news.unshift(Object.assign({id:'n'+now().toString(36),v:0,h:[]},data));
+ if(st==='published')push(f.t);
+ try{localStorage.removeItem('rm_d')}catch(e){}
+ save();S.edit=null;S.img='';S.tab='list';
+ toast(({published:'تم النشر في التطبيق',draft:'تم حفظ المسودة',pending:'أُرسل للاعتماد',scheduled:'تمت الجدولة'})[st]+(f.fb.length?' · صفحات فيس بوك في الانتظار':''));render()}
+function aStats(){const p=pub(),tv=p.reduce((s,n)=>s+(n.v||0),0),top=[...p].sort((a,b)=>(b.v||0)-(a.v||0)).slice(0,5),mx=Math.max(1,...CATS.map(c=>p.filter(n=>n.cat===c).length));
+ $('#ad').innerHTML=`<div class="kp"><div><b>${p.length}</b>خبر منشور</div><div><b>${tv}</b>قراءة</div></div><h4>الأكثر قراءة</h4>${top.map(n=>`<div class="row"><b>${esc(n.t)}</b><span>${n.v||0}</span></div>`).join('')||'<p class="empty">لا توجد بيانات بعد.</p>'}<h4>الأخبار حسب القسم</h4>${CATS.map(c=>{const k=p.filter(n=>n.cat===c).length;return`<div class="bars"><span>${c}</span><i style="width:${k/mx*100}%"></i><em>${k}</em></div>`}).join('')}`}
+function fs(d){D.fs=Math.min(1.4,Math.max(.8,+(D.fs+d).toFixed(2)));save();render()}
+function pins(){D.pin=$('#p1').value||D.pin;D.rpin=$('#p2').value||D.rpin;save();toast('تم حفظ الأرقام السرية')}
+function bkOut(){const b=$('#bk');b.value=JSON.stringify(D);b.select();try{document.execCommand('copy');toast('تم نسخ النسخة الاحتياطية')}catch(e){}}
+function bkIn(){try{const x=JSON.parse($('#bk').value);if(!x.news)throw 0;D=x;save();toast('تم الاستيراد');render()}catch(e){toast('النص غير صحيح')}}
+function aSet(){$('#ad').innerHTML=`<div class="form"><label>حجم الخط</label><div class="two"><button class="ob" onclick="fs(-.1)">أصغر</button><button class="ob" onclick="fs(.1)">أكبر</button></div>${S.role==='chief'?`<label>الرقم السري لرئيس التحرير</label><input id="p1" value="${esc(D.pin)}"><label>الرقم السري للمراسل</label><input id="p2" value="${esc(D.rpin)}"><button class="ob" onclick="pins()">حفظ الأرقام</button><label>نسخة احتياطية</label><textarea id="bk" rows="4"></textarea><div class="two"><button class="ob" onclick="bkOut()">تصدير</button><button class="ob" onclick="bkIn()">استيراد</button></div>`:''}<button class="pb" onclick="S.role=null;S.admin=0;render()">تسجيل الخروج</button></div>`}
+window.goBack=()=>{if($('#sh').className){closeSheet();return true}if(S.admin){S.admin=0;render();return true}return false};
+setInterval(()=>{let c=0;D.news.forEach(n=>{if(n.st==='scheduled'&&n.at<=now()){n.st='published';n.later=0;c++;push(n.t)}});if(c){save();if(!S.admin)render()}},15000);
+setInterval(ticker,4000);
+if('serviceWorker' in navigator)addEventListener('load',()=>navigator.serviceWorker.register('sw.js').catch(()=>{}));
+let ip;addEventListener('beforeinstallprompt',e=>{e.preventDefault();ip=e;$('#ins').style.display='flex'});
+function inst(){if(ip)ip.prompt();$('#ins').style.display='none'}
+addEventListener('click',()=>{if('Notification' in window&&Notification.permission==='default')Notification.requestPermission()},{once:true});
+load();render();
+</script></body></html>
