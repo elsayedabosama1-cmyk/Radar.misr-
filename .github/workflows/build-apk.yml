@@ -13,7 +13,7 @@ jobs:
       - name: Copy web app into Android assets
         run: |
           mkdir -p android/app/src/main/assets
-          cp index.html logo.jpg icon-192.png icon-512.png manifest.json android/app/src/main/assets/
+          cp index.html logo.png icon-192.png icon-512.png manifest.json android/app/src/main/assets/
       - uses: actions/setup-java@v4
         with: { distribution: temurin, java-version: '17' }
       - uses: gradle/actions/setup-gradle@v4

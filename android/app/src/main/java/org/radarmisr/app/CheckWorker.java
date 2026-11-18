@@ -106,7 +106,7 @@ public class CheckWorker extends Worker {
         String txt = count == 1 ? title : count + " أخبار جديدة، آخرها: " + title;
         nm.notify(1, new NotificationCompat.Builder(ctx, CH)
                 .setSmallIcon(R.drawable.ic_notif)
-                .setContentTitle("رادار مصر")
+                .setContentTitle("مِرصد")
                 .setContentText(txt)
                 .setStyle(new NotificationCompat.BigTextStyle().bigText(txt))
                 .setContentIntent(pi)
