@@ -54,15 +54,16 @@ input,select,textarea{width:100%;font:inherit;padding:9px 10px;border:1px solid 
 h4{margin:14px 0 6px}.bars{display:grid;grid-template-columns:70px 1fr 30px;align-items:center;gap:8px}.bars i{height:10px;background:var(--red);border-radius:5px}
 #ts{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#10131c;color:#fff;padding:8px 18px;border-radius:20px;opacity:0;pointer-events:none;z-index:20;transition:opacity .2s}
 #ts.on{opacity:1}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:10px 0}.tile{position:relative;background:var(--card);border:1px solid var(--ln);border-radius:16px;padding:18px 8px 14px;display:flex;flex-direction:column;align-items:center;gap:8px;font:inherit;color:var(--tx);text-align:center}.tile svg{width:38px;height:38px;color:var(--blue)}.tile strong{font-size:1rem;line-height:1.4}.tile .nbadge{position:absolute;top:8px;left:8px;margin:0}.filea{text-decoration:none;color:var(--tx)}.filea svg{width:26px;height:26px;color:var(--blue);flex:none}.filea b{flex:1}#ft{text-align:center;color:var(--mut);padding:14px 12px;display:none}.thumb{width:100%;border-radius:12px;margin-top:8px}
 #tabs button{position:relative}.gsel{margin:6px 0 10px}.note{background:#fff4d6;color:#5a3d00;border-radius:10px;padding:8px 12px;margin:10px 0;border:1px solid #f0d28a}body.dark .note{background:#3a2f10;color:#ffe3a3;border-color:#6b5520}a.pb{display:block;text-align:center;text-decoration:none;margin:8px 0}.nbadge{display:inline-block;margin-inline-start:6px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--red);color:#fff;font:700 12px/20px sans-serif;text-align:center;font-style:normal}#tabs button.on .nbadge{background:#fff;color:var(--red)}.newchip{display:inline-block;background:var(--red);color:#fff;border-radius:6px;padding:0 8px;font-size:.75rem;font-weight:700;margin-inline-start:6px}
 </style></head><body>
-<header><img src="logo.jpg" alt=""><h1>رادار مصر</h1>
+<header><img src="logo.jpg" alt=""><h1 id="hTitle">رادار مصر</h1>
 <button class="ib" aria-label="بحث" onclick="srch()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
 <button class="ib" aria-label="الوضع الليلي" onclick="D.dark=!D.dark;save();render()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg></button>
 <button class="ib" aria-label="الإدارة" onclick="adm()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/></svg></button></header>
-<div id="tk"><b>عاجل</b><span id="tt"></span></div>
+<div id="tk"><b id="tkl">عاجل</b><span id="tt"></span></div>
 <div id="ins" style="display:none;background:var(--blue);color:#fff;padding:6px 14px;align-items:center;justify-content:space-between;font-weight:700"><span>ثبّت رادار مصر على موبايلك</span><button onclick="inst()" style="border:0;border-radius:8px;padding:4px 14px;font:inherit;font-weight:700">تثبيت</button></div>
-<nav id="tabs"></nav><main id="v"></main><div id="sh"></div><div id="ts"></div>
+<nav id="tabs"></nav><main id="v"></main><footer id="ft"></footer><div id="sh"></div><div id="ts"></div>
 <script>
 const CATS=['عاجل','المحليات','أخبار مصر','سياسة وبرلمان','عرب وعالم','اقتصاد وأعمال','حوادث وقضايا','تعليم','رياضة','تكنولوجيا','ثقافة وفن','تحقيقات وتقارير','فيديوهات'];
 const GOVS=['القاهرة','الجيزة','الإسكندرية','القليوبية','الشرقية','الدقهلية','الغربية','المنوفية','البحيرة','كفر الشيخ','دمياط','بورسعيد','الإسماعيلية','السويس','شمال سيناء','جنوب سيناء','الفيوم','بني سويف','المنيا','أسيوط','سوهاج','قنا','الأقصر','أسوان','البحر الأحمر','الوادي الجديد','مطروح'];
@@ -71,15 +72,22 @@ const STL={published:'منشور',draft:'مسودة',pending:'بانتظار ا�
 const $=s=>document.querySelector(s),now=()=>Date.now();
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const REPO='elsayedabosama1-cmyk/Radar.misr-',BR='main',FILE='data/news.json',RAW='https://raw.githubusercontent.com/'+REPO+'/'+BR+'/',API='https://api.github.com/repos/'+REPO+'/contents/';
-let D,NEWS=[],S={cat:'الكل',gov:'',q:'',admin:0,tab:'list',edit:null,img:''},tki=0,TOK='',SINCE=0,VC=-1;
+let D,NEWS=[],X={texts:{},folders:[]},S={view:'home',fpath:[],afp:[],cat:'الكل',gov:'',q:'',admin:0,tab:'list',edit:null,img:''},tki=0,TOK='',SINCE=0,VC=-1;
 const enc=s=>btoa(unescape(encodeURIComponent(s))),dec=b=>decodeURIComponent(escape(atob(b.replace(/\s/g,''))));
+const IC={news:'<path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v9a2 2 0 0 1-2 2"/><path d="M7 9h7M7 13h7"/>',bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',egypt:'<path d="M12 4L3 20h18z"/><path d="M12 4v16"/>',gov:'<path d="M3 9l9-5 9 5"/><path d="M5 10v8M9 10v8M15 10v8M19 10v8M3 20h18"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',chart:'<path d="M5 20V10M11 20V4M17 20v-7M3 20h18"/>',warn:'<path d="M12 3L2 20h20z"/><path d="M12 10v5M12 17.5v.5"/>',cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>',ball:'<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.5 5.5c4 3 9 3 13 0M5.5 18.5c4-3 9-3 13 0"/>',chip:'<path d="M3 5h18v11H3z"/><path d="M8 20h8M12 16v4"/>',art:'<path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 0 0 3-3 9 9 0 0 0-8-11z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',video:'<path d="M3 5h18v14H3z"/><path d="M10 9l5 3-5 3z"/>',bookmark:'<path d="M6 3h12v18l-6-4-6 4z"/>',folder:'<path d="M3 6h6l2 2h10v11H3z"/>',file:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/>'};
+const CI={'عاجل':'bolt','المحليات':'pin','أخبار مصر':'egypt','سياسة وبرلمان':'gov','عرب وعالم':'globe','اقتصاد وأعمال':'chart','حوادث وقضايا':'warn','تعليم':'cap','رياضة':'ball','تكنولوجيا':'chip','ثقافة وفن':'art','تحقيقات وتقارير':'search','فيديوهات':'video'};
+const icon=n=>`<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${IC[n]||IC.news}</svg>`;
+const TK=[['title','اسم التطبيق','رادار مصر'],['tk','شارة الأخبار العاجلة','عاجل'],['all','أيقونة كل الأخبار','كل الأخبار'],['saved','أيقونة المحفوظ','المحفوظ'],['foot','سطر أسفل الصفحة (اختياري)','']].concat(CATS.map(c=>['c:'+c,'قسم: '+c,c]));
+function lbl(k){const d=(TK.find(x=>x[0]===k)||[])[2]||'';return(X.texts&&X.texts[k])||d}
+function applyTexts(){$('#hTitle').textContent=lbl('title');$('#tkl').textContent=lbl('tk');const f=lbl('foot');$('#ft').textContent=f;$('#ft').style.display=f?'block':'none'}
 const imgU=u=>u&&!/^(data:|https?:)/.test(u)?RAW+u:(u||'');
 function load(){try{D=JSON.parse(localStorage.getItem('rm2')||'null')}catch(e){D=null}
  if(!D)D={dark:0,fs:1,saved:[],drafts:[],seenC:{},first:now(),last:now()};
  D.saved=D.saved||[];D.drafts=D.drafts||[];D.seenC=D.seenC||{};D.first=D.first||now();
  SINCE=D.last||D.first;D.last=now();save();
  try{NEWS=JSON.parse(localStorage.getItem('rmNews')||'[]')}catch(e){NEWS=[]}
- try{TOK=localStorage.getItem('rmTok')||''}catch(e){}}
+ try{TOK=localStorage.getItem('rmTok')||''}catch(e){}
+ try{X=JSON.parse(localStorage.getItem('rmX')||'null')||X}catch(e){}}
 function save(){try{localStorage.setItem('rm2',JSON.stringify(D))}catch(e){toast('المساحة ممتلئة')}}
 function toast(m){const e=$('#ts');e.textContent=m;e.className='on';clearTimeout(toast.t);toast.t=setTimeout(()=>e.className='',2800)}
 function sheet(h){$('#sh').innerHTML=h;$('#sh').className='on'}
@@ -90,18 +98,32 @@ const vis=n=>(n.st==='published'||n.st==='scheduled')&&n.at<=now();
 const pub=()=>NEWS.filter(vis).sort((a,b)=>b.at-a.at);
 const gn=id=>NEWS.find(x=>x.id===id)||D.drafts.find(x=>x.id===id);
 function ticker(){const l=pub().filter(n=>n.cat==='عاجل').slice(0,5),e=$('#tk');if(!l.length){e.style.display='none';return}e.style.display='flex';tki=(tki+1)%l.length;$('#tt').textContent=l[tki].t}
-function render(){document.body.classList.toggle('dark',!!D.dark);document.documentElement.style.setProperty('--fs',D.fs);$('#tabs').style.display=S.admin?'none':'flex';VC=pub().length;S.admin?renderAdmin():renderHome();ticker()}
-async function sync(){if(Date.now()-(D.ls||0)<6e5)return;try{const r=await fetch(RAW+FILE+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(!Array.isArray(j.news))return;const s=JSON.stringify(j.news);if(s===JSON.stringify(NEWS))return;NEWS=j.news;try{localStorage.setItem('rmNews',s)}catch(e){}if(!S.admin&&$('#sh').className!=='on')render()}catch(e){}}
+function render(){applyTexts();document.body.classList.toggle('dark',!!D.dark);document.documentElement.style.setProperty('--fs',D.fs);$('#tabs').style.display=S.admin?'none':'flex';VC=pub().length;S.admin?renderAdmin():renderHome();ticker()}
+async function sync(){if(Date.now()-(D.ls||0)<6e5)return;try{const r=await fetch(RAW+FILE+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(!Array.isArray(j.news))return;const nx={texts:j.texts||{},folders:j.folders||[]};if(JSON.stringify([j.news,nx])===JSON.stringify([NEWS,X]))return;NEWS=j.news;X=nx;try{localStorage.setItem('rmNews',JSON.stringify(NEWS));localStorage.setItem('rmX',JSON.stringify(X))}catch(e){}if(!S.admin&&$('#sh').className!=='on')render()}catch(e){}}
 function card(n){return`<article class="card" onclick="openN('${n.id}')">${n.img?`<div class="im" style="background-image:url(${imgU(n.img)})"><i class="wm"></i></div>`:''}<div class="cb"><span class="tg ${n.cat==='عاجل'?'br':''}">${n.cat}</span>${n.at>SINCE?'<span class="newchip">جديد</span>':''}<h3>${esc(n.t)}</h3><small>${ago(n.at)}${n.gov?' · '+esc(n.gov):''}</small></div></article>`}
 function nb(c){if(c==='محفوظ')return'';const f=Math.max(D.first,D.seenC[c]||0),k=pub().filter(n=>(c==='الكل'||n.cat===c)&&n.at>f).length;return k?`<i class="nbadge">${k>9?'9+':k}</i>`:''}
-function openCat(c){S.cat=c;D.seenC[c]=now();save();render()}
+function openCat(c){S.cat=c;S.view='cat';D.seenC[c]=now();save();render();scrollTo(0,0)}
+function toHome(){S.view='home';S.q='';S.gov='';S.fpath=[];render();scrollTo(0,0)}
+function tile(ic,t,fn,bd){return`<button class="tile" onclick="${fn}">${bd||''}${icon(ic)}<strong>${esc(t)}</strong></button>`}
+function fcnt(f,since){return(f.files||[]).filter(x=>x.ts>since).length+(f.folders||[]).reduce((a,x)=>a+fcnt(x,since),0)}
+function fb(f){const k=fcnt(f,Math.max(D.first,D.seenC['f:'+f.id]||0));return k?`<i class="nbadge">${k>9?'9+':k}</i>`:''}
+function openF(id,top){if(top)S.fpath=[id];else S.fpath.push(id);S.view='fol';D.seenC['f:'+id]=now();save();render();scrollTo(0,0)}
+function curF(){let a=X.folders||[],f=null;for(const id of S.fpath){f=a.find(x=>x.id===id);if(!f)return null;a=f.folders||[]}return f}
 function renderHome(){
- $('#tabs').innerHTML=['الكل',...CATS,'محفوظ'].map(c=>`<button class="${c===S.cat?'on':''}" onclick="openCat('${c}')">${c}${nb(c)}</button>`).join('');
+ if(S.view==='cat')return renderCat();if(S.view==='fol')return renderFol();
+ $('#v').innerHTML=`<div class="grid">${tile('news',lbl('all'),"openCat('الكل')",nb('الكل'))}${CATS.map(c=>tile(CI[c]||'news',lbl('c:'+c),`openCat('${c}')`,nb(c))).join('')}${tile('bookmark',lbl('saved'),"openCat('محفوظ')")}${(X.folders||[]).map(f=>tile('folder',f.name,`openF('${f.id}',1)`,fb(f))).join('')}</div>`}
+function renderCat(){
  let l=pub();if(S.cat==='محفوظ')l=l.filter(n=>D.saved.includes(n.id));else if(S.cat!=='الكل')l=l.filter(n=>n.cat===S.cat);
  if(S.gov)l=l.filter(n=>n.gov===S.gov);
  if(S.q)l=l.filter(n=>(n.t+n.b+(n.kw||'')).includes(S.q));
- $('#v').innerHTML=`<select class="gsel" onchange="S.gov=this.value;render()"><option value="">كل المحافظات</option>${GOVS.map(g=>`<option ${g===S.gov?'selected':''}>${g}</option>`).join('')}</select>`+(S.q?`<p class="mut">نتائج البحث عن "${esc(S.q)}" <button class="ob" onclick="S.q='';render()">مسح</button></p>`:'')+(l.length?l.map(card).join(''):'<p class="empty">لا توجد أخبار هنا بعد.</p>')}
-function srch(){sheet(`<div class="box"><h3>بحث في الأخبار</h3><input id="sq" placeholder="اكتب كلمة البحث"><button class="pb" onclick="S.q=$('#sq').value.trim();closeSheet();render()">بحث</button><button class="ob" onclick="closeSheet()">إلغاء</button></div>`);setTimeout(()=>$('#sq').focus(),50)}
+ const t=S.cat==='الكل'?lbl('all'):S.cat==='محفوظ'?lbl('saved'):lbl('c:'+S.cat);
+ $('#v').innerHTML=`<div class="bar"><button onclick="toHome()">رجوع</button><b style="flex:1;align-self:center">${esc(t)}</b></div><select class="gsel" onchange="S.gov=this.value;render()"><option value="">كل المحافظات</option>${GOVS.map(g=>`<option ${g===S.gov?'selected':''}>${g}</option>`).join('')}</select>`+(S.q?`<p class="mut">نتائج البحث عن "${esc(S.q)}" <button class="ob" onclick="S.q='';render()">مسح</button></p>`:'')+(l.length?l.map(card).join(''):'<p class="empty">لا توجد أخبار هنا بعد.</p>')}
+function fileCard(x){const u=RAW+x.url,nw=x.ts>SINCE?'<span class="newchip">جديد</span>':'';return x.kind==='img'?`<div class="card" onclick="viewImg('${x.id}')"><div class="im" style="background-image:url(${u})"></div><div class="cb"><b>${esc(x.title)}</b>${nw}</div></div>`:`<a class="row filea" href="${u}">${icon('file')}<b>${esc(x.title)}</b>${nw}</a>`}
+function viewImg(id){const f=curF(),x=(f.files||[]).find(y=>y.id===id);if(x)sheet(`<div class="art"><div class="bar"><button onclick="closeSheet()">رجوع</button></div><h3>${esc(x.title)}</h3><img class="thumb" src="${RAW+x.url}" alt=""></div>`)}
+function renderFol(){const f=curF();if(!f){S.view='home';return renderHome()}
+ const subs=f.folders||[],fl=f.files||[];
+ $('#v').innerHTML=`<div class="bar"><button onclick="goBack()">رجوع</button><b style="flex:1;align-self:center">${esc(f.name)}</b></div>${subs.length?`<div class="grid">${subs.map(x=>tile('folder',x.name,`openF('${x.id}')`,fb(x))).join('')}</div>`:''}${fl.map(fileCard).join('')}${!subs.length&&!fl.length?'<p class="empty">المجلد فاضي.</p>':''}`}
+function srch(){sheet(`<div class="box"><h3>بحث في الأخبار</h3><input id="sq" placeholder="اكتب كلمة البحث"><button class="pb" onclick="S.q=$('#sq').value.trim();S.cat='الكل';S.view='cat';closeSheet();render()">بحث</button><button class="ob" onclick="closeSheet()">إلغاء</button></div>`);setTimeout(()=>$('#sq').focus(),50)}
 function openN(id){const n=gn(id);if(!n)return;
  sheet(`<div class="art"><div class="bar"><button onclick="closeSheet()">رجوع</button><button onclick="share('${id}')">مشاركة</button><button onclick="fav('${id}')">${D.saved.includes(id)?'إلغاء الحفظ':'حفظ'}</button></div>${n.img?`<div class="hero" style="background-image:url(${imgU(n.img)})"><i class="wm"></i></div>`:''}<span class="tg ${n.cat==='عاجل'?'br':''}">${n.cat}</span><h2>${esc(n.t)}</h2><small>${ago(n.at)}${n.gov?' · '+esc(n.gov):''}${n.au?' · '+esc(n.au):''}${n.src?' · المصدر: '+esc(n.src):''}</small>${n.note?`<div class="note"><b>تنويه / تصحيح:</b> ${esc(n.note)}</div>`:''}<p class="body">${esc(n.b).replace(/\n/g,'<br>')}</p>${/^https?:\/\//.test(n.vid||'')?`<a class="pb" href="${esc(n.vid)}">▶ شاهد الفيديو</a>`:''}${n.kw?`<p class="mut">${esc(n.kw)}</p>`:''}<div class="sig"><img src="logo.jpg" alt="">رادار مصر</div></div>`)}
 function share(id){const n=gn(id),t=n.t+'\n\n'+n.b.slice(0,300)+(n.b.length>300?'...':'')+'\n\n— رادار مصر';if(window.Android&&Android.share)Android.share(t);else if(navigator.share)navigator.share({text:t});else{try{navigator.clipboard.writeText(t)}catch(e){}toast('تم نسخ الخبر')}}
@@ -117,15 +139,15 @@ async function mutate(fn,msg){
   if(!Array.isArray(db.news))db.news=[];
   fn(db);db.version=(db.version||0)+1;
   const w=await gh('PUT',FILE,{message:msg||'Update news (admin)',content:enc(JSON.stringify(db)),branch:BR,sha});
-  if(w.status===200||w.status===201){NEWS=db.news;D.ls=Date.now();save();try{localStorage.setItem('rmNews',JSON.stringify(NEWS))}catch(e){}return}
+  if(w.status===200||w.status===201){NEWS=db.news;X={texts:db.texts||{},folders:db.folders||[]};D.ls=Date.now();save();try{localStorage.setItem('rmNews',JSON.stringify(NEWS));localStorage.setItem('rmX',JSON.stringify(X))}catch(e){}return}
   if(w.status===409||w.status===422)continue;
   if(w.status===401||w.status===403)throw new Error('المفتاح مالوش صلاحية الكتابة (Contents: Read and write)');
   throw new Error('فشل الحفظ ('+w.status+')')}
  throw new Error('تعارض في الحفظ، جرّب تاني')}
 async function upImg(du,name){const w=await gh('PUT','photos/'+name,{message:'Add photo',content:du.split(',')[1],branch:BR});if(w.status!==201&&w.status!==200)throw new Error('فشل رفع الصورة ('+w.status+')');return'photos/'+name}
-function renderAdmin(){const T=[['list','الأخبار'],['new','خبر جديد'],['stats','إحصائيات'],['set','إعدادات']];
+function renderAdmin(){const T=[['list','الأخبار'],['new','خبر جديد'],['fol','المجلدات'],['txt','النصوص'],['stats','إحصائيات'],['set','إعدادات']];
  $('#v').innerHTML=`<div class="sub" style="top:62px">${T.map(t=>`<button class="${S.tab===t[0]?'on':''}" onclick="S.tab='${t[0]}';S.edit=null;S.img='';render()">${t[1]}</button>`).join('')}</div><div id="ad"></div>`;
- ({list:aList,new:aNew,stats:aStats,set:aSet})[S.tab]()}
+ ({list:aList,new:aNew,fol:aFol,txt:aTxt,stats:aStats,set:aSet})[S.tab]()}
 function aList(){const l=[...D.drafts,...NEWS].sort((a,b)=>b.at-a.at);
  $('#ad').innerHTML=l.length?l.map(n=>`<div class="row"><div><b>${esc(n.t)}</b><br><small>${n.cat} · <span class="st ${n.st}">${STL[n.st]}</span>${n.st==='draft'?' (على جهازك بس)':''}${n.st==='scheduled'?' · '+new Date(n.at).toLocaleString('ar-EG'):''}${n.fb&&n.fb.length?' · فيس بوك: في الانتظار ('+n.fb.length+')':''}</small></div><div class="acts"><button onclick="ed('${n.id}')">تعديل</button><button class="dl" onclick="del('${n.id}')">حذف</button></div></div>`).join(''):'<p class="empty">لا توجد أخبار. اضغط "خبر جديد".</p>'}
 async function del(id){if(!confirm('حذف الخبر نهائيًا؟'))return;if(D.drafts.some(x=>x.id===id)){D.drafts=D.drafts.filter(x=>x.id!==id);save();toast('تم الحذف');return render()}
@@ -156,6 +178,25 @@ async function saveNews(){const f=collect();if(!f.t||!f.b)return toast('اكتب
  try{localStorage.removeItem('rm_d')}catch(e){}
  S.edit=null;S.img='';S.tab='list';
  toast(({draft:'تم حفظ المسودة على جهازك',scheduled:'تمت الجدولة'})[f.mode]||'تم النشر للجميع');render()}
+function shrink(f,m){return new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,(m||1400)/im.width),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);res(c.toDataURL('image/jpeg',.78))};im.onerror=rej;im.src=r.result};r.onerror=rej;r.readAsDataURL(f)})}
+function loc(db,path){let c=db;for(const id of path){c=(c.folders||[]).find(x=>x.id===id);if(!c)throw new Error('المجلد مش موجود')}return c}
+async function fmut(fn,msg){try{await mutate(db=>{if(!db.folders)db.folders=[];fn(loc(db,S.afp))},msg);toast('تم');render()}catch(e){toast(e.message)}}
+function acur(){let a=X.folders||[],f=null;for(const id of S.afp){f=a.find(x=>x.id===id);if(!f)return null;a=f.folders||[]}return f}
+function aFol(){const f=S.afp.length?acur():null,subs=(f?f.folders:X.folders)||[],fl=f?f.files||[]:[];
+ $('#ad').innerHTML=`<div class="bar">${S.afp.length?'<button onclick="S.afp.pop();render()">رجوع</button>':''}<b style="flex:1;align-self:center">${f?esc(f.name):'مجلدات الصفحة الرئيسية'}</b></div>${subs.map(x=>`<div class="row"><b style="flex:1" onclick="S.afp.push('${x.id}');render()">📁 ${esc(x.name)}</b><div class="acts"><button onclick="fRen('${x.id}')">تسمية</button><button class="dl" onclick="fDel('${x.id}')">حذف</button></div></div>`).join('')}${fl.map(x=>`<div class="row"><b style="flex:1">${x.kind==='img'?'🖼':'📄'} ${esc(x.title)}</b><div class="acts"><button class="dl" onclick="fileDel('${x.id}')">حذف</button></div></div>`).join('')}${!subs.length&&!fl.length?'<p class="empty">فاضي.</p>':''}<div class="form"><button class="ob" onclick="fNew()">+ مجلد جديد</button>${f?`<label>رفع صورة أو ملف (PDF / Word / Excel)</label><input type="file" id="f_up" accept="image/*,application/pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx" onchange="fUp(this)">`:'<small>افتح مجلد عشان ترفع جواه صور وملفات.</small>'}</div>`}
+function fNew(){const n=(prompt('اسم المجلد')||'').trim();if(!n)return;fmut(c=>{(c.folders=c.folders||[]).push({id:'f'+now().toString(36),name:n,ts:now(),folders:[],files:[]})},'New folder: '+n.slice(0,40))}
+function fRen(id){const x=((acur()||X).folders||[]).find(y=>y.id===id),n=(prompt('الاسم الجديد',x.name)||'').trim();if(!n)return;fmut(c=>{c.folders.find(y=>y.id===id).name=n},'Rename folder')}
+function fDel(id){if(!confirm('حذف المجلد وكل اللي جواه؟'))return;fmut(c=>{c.folders=c.folders.filter(y=>y.id!==id)},'Delete folder')}
+function fileDel(id){if(!confirm('حذف الملف؟'))return;fmut(c=>{c.files=(c.files||[]).filter(y=>y.id!==id)},'Delete file')}
+async function fUp(i){const f=i.files[0];if(!f)return;if(f.size>25e6)return toast('الملف كبير (الحد 25 ميجا)');
+ const title=(prompt('اسم الملف كما يظهر للناس',f.name.replace(/\.[^.]+$/,''))||'').trim();if(!title)return;toast('جاري الرفع...');
+ try{const id='x'+now().toString(36);let kind='file',ext=(f.name.split('.').pop()||'bin').toLowerCase().replace(/[^a-z0-9]/g,'').slice(0,5)||'bin',b64;
+  if(f.type.startsWith('image/')){kind='img';ext='jpg';b64=(await shrink(f)).split(',')[1]}
+  else{b64=await new Promise((res,rej)=>{const r=new FileReader();r.onload=()=>res(r.result.split(',')[1]);r.onerror=rej;r.readAsDataURL(f)});if(ext==='pdf')kind='pdf'}
+  const path='files/'+id+'.'+ext,w=await gh('PUT',path,{message:'Add file',content:b64,branch:BR});if(w.status!==201&&w.status!==200)throw new Error('فشل رفع الملف ('+w.status+')');
+  await fmut(c=>{(c.files=c.files||[]).push({id,ts:now(),title,url:path,kind})},'Add file: '+title.slice(0,50))}catch(e){toast(e.message)}}
+function aTxt(){$('#ad').innerHTML=`<div class="form"><small>غيّر أي نص هيظهر في التطبيق. سيب الخانة فاضية للرجوع للأصل.</small>${TK.map((k,i)=>`<label>${esc(k[1])}</label><input id="tx${i}" value="${esc((X.texts||{})[k[0]]||'')}" placeholder="${esc(k[2])}">`).join('')}<button class="pb" onclick="saveTxt()">حفظ النصوص</button></div>`}
+async function saveTxt(){const t={};TK.forEach((k,i)=>{const v=$('#tx'+i).value.trim();if(v&&v!==k[2])t[k[0]]=v});try{await mutate(db=>{db.texts=t},'Edit texts');toast('تم الحفظ');render()}catch(e){toast(e.message)}}
 function aStats(){const p=pub(),mx=Math.max(1,...CATS.map(c=>p.filter(n=>n.cat===c).length));
  $('#ad').innerHTML=`<div class="kp"><div><b>${p.length}</b>خبر منشور</div><div><b>${NEWS.filter(n=>n.st==='scheduled'&&n.at>now()).length}</b>مجدول</div></div><h4>الأخبار حسب القسم</h4>${CATS.map(c=>{const k=p.filter(n=>n.cat===c).length;return`<div class="bars"><span>${c}</span><i style="width:${k/mx*100}%"></i><em>${k}</em></div>`}).join('')}`}
 function fs(d){D.fs=Math.min(1.4,Math.max(.8,+(D.fs+d).toFixed(2)));save();render()}
@@ -166,7 +207,7 @@ async function importOld(){let o;try{o=JSON.parse(localStorage.getItem('rm')||'n
   await mutate(db=>{const ids=new Set(db.news.map(x=>x.id));l.forEach(n=>{if(!ids.has(n.id))db.news.push(n)});db.news.sort((a,b)=>b.at-a.at)},'Import old news');toast('تم النقل');render()}catch(e){toast(e.message)}}
 function logout(){TOK='';try{localStorage.removeItem('rmTok')}catch(e){}S.admin=0;render()}
 function aSet(){$('#ad').innerHTML=`<div class="form"><label>حجم الخط</label><div class="two"><button class="ob" onclick="fs(-.1)">أصغر</button><button class="ob" onclick="fs(.1)">أكبر</button></div><label>أخبار قديمة على الجهاز ده</label><button class="ob" onclick="importOld()">نقل الأخبار القديمة للنظام الجديد</button><button class="pb" onclick="logout()">تسجيل الخروج</button></div>`}
-window.goBack=()=>{if($('#sh').className){closeSheet();return true}if(S.admin){S.admin=0;render();return true}return false};
+window.goBack=()=>{if($('#sh').className){closeSheet();return true}if(S.admin){S.admin=0;render();return true}if(S.view==='fol'){S.fpath.pop();if(!S.fpath.length)S.view='home';render();return true}if(S.view==='cat'){toHome();return true}return false};
 setInterval(()=>{if(!S.admin&&$('#sh').className!=='on'&&pub().length!==VC)render()},30000);
 setInterval(sync,120000);document.addEventListener('visibilitychange',()=>{if(!document.hidden)sync()});
 setInterval(ticker,4000);

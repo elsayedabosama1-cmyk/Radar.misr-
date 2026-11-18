@@ -24,6 +24,23 @@ public class CheckWorker extends Worker {
 
     public CheckWorker(@NonNull Context c, @NonNull WorkerParameters p) { super(c, p); }
 
+    static void scanFiles(JSONArray folders, long since, long[] r, String[] title) {
+        if (folders == null) return;
+        for (int i = 0; i < folders.length(); i++) {
+            JSONObject f = folders.optJSONObject(i);
+            if (f == null) continue;
+            JSONArray files = f.optJSONArray("files");
+            if (files != null) for (int k = 0; k < files.length(); k++) {
+                JSONObject x = files.optJSONObject(k);
+                if (x == null) continue;
+                long ts = x.optLong("ts", 0);
+                if (ts > r[1]) { r[1] = ts; title[0] = x.optString("title"); }
+                if (since >= 0 && ts > since) r[0]++;
+            }
+            scanFiles(f.optJSONArray("folders"), since, r, title);
+        }
+    }
+
     @NonNull
     @Override
     public Result doWork() {
@@ -56,6 +73,14 @@ public class CheckWorker extends Worker {
                     count++;
                     if (at > titleAt) { titleAt = at; title = j.optString("t"); }
                 }
+            }
+            long[] fr = new long[]{0, 0};
+            String[] ft = new String[]{""};
+            scanFiles(db.optJSONArray("folders"), last, fr, ft);
+            if (fr[1] > max) max = fr[1];
+            if (last >= 0 && fr[0] > 0) {
+                count += (int) fr[0];
+                if (fr[1] >= titleAt) title = ft[0];
             }
             if (last < 0) {
                 sp.edit().putLong("last", Math.max(max, now)).apply();
