@@ -1,0 +1,29 @@
+name: Build APK
+on:
+  push:
+    paths-ignore: ['data/**','photos/**','**.md']
+  workflow_dispatch:
+permissions:
+  contents: write
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Copy web app into Android assets
+        run: |
+          mkdir -p android/app/src/main/assets
+          cp index.html logo.jpg icon-192.png icon-512.png manifest.json android/app/src/main/assets/
+      - uses: actions/setup-java@v4
+        with: { distribution: temurin, java-version: '17' }
+      - uses: gradle/actions/setup-gradle@v4
+        with: { gradle-version: '8.7' }
+      - run: gradle assembleDebug --no-daemon
+        working-directory: android
+      - name: Publish release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp android/app/build/outputs/apk/debug/app-debug.apk radar-misr.apk
+          gh release delete radar-apk --yes --cleanup-tag || true
+          gh release create radar-apk radar-misr.apk --target "$GITHUB_SHA" --title "رادار مصر (APK)" --notes "نزّل radar-misr.apk وثبّته على الموبايل."
