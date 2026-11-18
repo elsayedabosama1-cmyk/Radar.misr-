@@ -24,6 +24,6 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          cp android/app/build/outputs/apk/debug/app-debug.apk radar-misr.apk
-          gh release delete radar-apk --yes --cleanup-tag || true
-          gh release create radar-apk radar-misr.apk --target "$GITHUB_SHA" --title "رادار مصر (APK)" --notes "نزّل radar-misr.apk وثبّته على الموبايل."
+          cp android/app/build/outputs/apk/debug/app-debug.apk mirsad.apk
+          gh release delete mirsad-apk --yes --cleanup-tag || true
+          gh release create mirsad-apk mirsad.apk --target "$GITHUB_SHA" --title "مِرصد (APK)" --notes "نزّل mirsad.apk وثبّته على الموبايل."
