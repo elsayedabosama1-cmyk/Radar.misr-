@@ -54,7 +54,8 @@ public class CheckWorker extends Worker {
             int n;
             while ((n = in.read(buf)) > 0) bo.write(buf, 0, n);
             in.close();
-            JSONArray arr = new JSONObject(bo.toString("UTF-8")).getJSONArray("news");
+            JSONObject db = new JSONObject(bo.toString("UTF-8"));
+            JSONArray arr = db.getJSONArray("news");
             long now = System.currentTimeMillis();
             SharedPreferences sp = getApplicationContext().getSharedPreferences("notif", Context.MODE_PRIVATE);
             long last = sp.getLong("last", -1);
