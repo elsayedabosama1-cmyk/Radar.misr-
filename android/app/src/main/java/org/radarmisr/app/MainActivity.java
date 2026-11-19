@@ -28,6 +28,8 @@ import androidx.work.Constraints;
 import androidx.work.ExistingPeriodicWorkPolicy;
 import androidx.work.NetworkType;
 import androidx.work.PeriodicWorkRequest;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.ExistingWorkPolicy;
 import androidx.work.WorkManager;
 
 import java.util.ArrayList;
@@ -59,6 +61,7 @@ public class MainActivity extends Activity {
         );
 
         offlineQueue = new OfflineQueue(this);
+        enqueueSync();
         web = new WebView(this);
         setContentView(web);
 
@@ -97,7 +100,24 @@ public class MainActivity extends Activity {
                 // Every edit is a distinct idempotent operation. Reusing kind:entityId
                 // would make the server replay the first receipt and silently skip later edits.
                 String operationId = UUID.randomUUID().toString();
-                return offlineQueue.enqueue(operationId, kind, payload, System.currentTimeMillis());
+                boolean saved = offlineQueue.enqueue(operationId, kind, payload, System.currentTimeMillis());
+                if (saved) enqueueSync();
+                return saved;
+            }
+
+            @JavascriptInterface
+            public boolean setSyncToken(String token) {
+                try {
+                    if (token == null || token.isEmpty()) {
+                        SyncTokenStore.clear(MainActivity.this);
+                        return true;
+                    }
+                    String api = BuildConfig.MIRSAD_API_BASE_URL == null ? "" : BuildConfig.MIRSAD_API_BASE_URL.trim();
+                    if (!api.startsWith("https://")) return false;
+                    SyncTokenStore.save(MainActivity.this, token);
+                    enqueueSync();
+                    return true;
+                } catch (Exception e) { return false; }
             }
 
             @JavascriptInterface
@@ -225,6 +245,20 @@ public class MainActivity extends Activity {
         } else if (web.restoreState(b) == null) {
             web.loadUrl("file:///android_asset/index.html");
         }
+    }
+
+    private void enqueueSync() {
+        String api = BuildConfig.MIRSAD_API_BASE_URL == null ? "" : BuildConfig.MIRSAD_API_BASE_URL.trim();
+        if (!api.startsWith("https://")) return;
+        try {
+            if (SyncTokenStore.read(this).isEmpty()) return;
+            OneTimeWorkRequest request = new OneTimeWorkRequest.Builder(SyncWorker.class)
+                    .setConstraints(new Constraints.Builder()
+                            .setRequiredNetworkType(NetworkType.CONNECTED).build())
+                    .build();
+            WorkManager.getInstance(this).enqueueUniqueWork("mirsad-outbox-sync",
+                    ExistingWorkPolicy.KEEP, request);
+        } catch (Exception ignored) { }
     }
 
     @Override
