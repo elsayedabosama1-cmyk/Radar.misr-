@@ -124,7 +124,7 @@ public class MainActivity extends Activity {
             public String pendingOperations() { return offlineQueue.list(); }
 
             @JavascriptInterface
-            public int pendingCount() { return offlineQueue.count(); }
+            public int pendingCount() { return offlineQueue.pendingCount(); }
 
             @JavascriptInterface
             public void share(String text) {
