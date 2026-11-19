@@ -27,6 +27,13 @@ async function db(env,fn){
   catch(e){ if(e.status) throw e; console.error("Database operation failed",e.message); throw fail("تعذر تنفيذ عملية قاعدة البيانات",503); }
   finally { await client.end().catch(()=>{}); }
 }
+async function tx(env,fn){
+  return db(env,async c=>{
+    await c.query("begin");
+    try { const result=await fn(c); await c.query("commit"); return result; }
+    catch(e){ await c.query("rollback").catch(()=>{}); throw e; }
+  });
+}
 async function identity(request,env){
   const auth=request.headers.get("authorization")||"";
   const token=auth.startsWith("Bearer ")?auth.slice(7):"";
@@ -111,7 +118,7 @@ export default { async fetch(request,env) {
       const p=await identity(request,env); requireStaff(p); const b=await bodyJson(request);
       const title=safeText(b.title,300), body=safeText(b.body,200000);
       if(title.length<3) throw fail("عنوان الخبر مطلوب (3 أحرف على الأقل)");
-      return await db(env,async c=>{
+      return await tx(env,async c=>{
         const q=await c.query("insert into public.articles(author_id,title,body,summary,section,governorate,source_name,source_url,image_url,status) values($1,$2,$3,$4,$5,$6,$7,$8,$9,'draft') returning *",
           [p.id,title,body,safeText(b.summary,1000)||null,safeText(b.section,100)||null,safeText(b.governorate,100)||null,safeText(b.source_name,200)||null,safeText(b.source_url,2000)||null,safeText(b.image_url,2000)||null]);
         await audit(c,p.id,"article_created","article",q.rows[0].id,null,q.rows[0]);
@@ -121,7 +128,7 @@ export default { async fetch(request,env) {
     const editMatch=path.match(/^\/api\/v1\/articles\/([0-9a-f-]+)$/i);
     if(editMatch&&request.method==="PATCH"){
       const p=await identity(request,env); requireStaff(p); const b=await bodyJson(request), id=editMatch[1];
-      return await db(env,async c=>{
+      return await tx(env,async c=>{
         const q=await c.query("select * from public.articles where id=$1 for update",[id]), a=q.rows[0];
         if(!a) throw fail("الخبر غير موجود",404);
         if(p.role!==ROLE.CHAIRMAN&&(a.author_id!==p.id||![STATUS.DRAFT,STATUS.CHANGES].includes(a.status))) throw fail("لا يمكنك تعديل هذا الخبر في حالته الحالية",403);
@@ -134,7 +141,7 @@ export default { async fetch(request,env) {
     const submitMatch=path.match(/^\/api\/v1\/articles\/([0-9a-f-]+)\/submit$/i);
     if(submitMatch&&request.method==="POST"){
       const p=await identity(request,env); requireStaff(p);
-      return await db(env,async c=>{
+      return await tx(env,async c=>{
         const q=await c.query("select * from public.articles where id=$1 for update",[submitMatch[1]]), a=q.rows[0];
         if(!a) throw fail("الخبر غير موجود",404);
         if(p.role!==ROLE.CHAIRMAN&&a.author_id!==p.id) throw fail("لا يمكنك إرسال خبر ليس من إعدادك",403);
@@ -155,7 +162,7 @@ export default { async fetch(request,env) {
       if(p.role!==ROLE.CHAIRMAN) throw fail("رئيس مجلس الإدارة فقط يغيّر الأدوار",403);
       const b=await bodyJson(request), role=safeText(b.role,30);
       if(![ROLE.EDITOR,ROLE.REPORTER,ROLE.AUDIENCE].includes(role)) throw fail("تعيين رئيس المجلس يتم بإجراء تأسيسي منفصل");
-      return await db(env,async c=>{
+      return await tx(env,async c=>{
         const q=await c.query("select * from public.profiles where id=$1 for update",[roleMatch[1]]), old=q.rows[0];
         if(!old) throw fail("الحساب غير موجود",404);
         if(old.id===p.id) throw fail("لا يمكن تغيير دور حسابك من هذه الواجهة",409);
@@ -168,7 +175,7 @@ export default { async fetch(request,env) {
     const statusMatch=path.match(/^\/api\/v1\/profiles\/([0-9a-f-]+)\/status$/i);
     if(statusMatch&&request.method==="PATCH"){
       const p=await identity(request,env), b=await bodyJson(request);
-      return await db(env,async c=>{
+      return await tx(env,async c=>{
         const q=await c.query("select * from public.profiles where id=$1 for update",[statusMatch[1]]), old=q.rows[0];
         if(!old) throw fail("الحساب غير موجود",404);
         if(old.id===p.id) throw fail("لا يمكن تجميد حسابك بنفسك",409);
