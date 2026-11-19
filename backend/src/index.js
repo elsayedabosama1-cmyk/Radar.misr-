@@ -291,7 +291,7 @@ export default { async fetch(request,env) {
         return json({items:q.rows},200,origin);
       });
     }
-    const notificationMatch=path.match(/^\/api\/v1\/notifications\/([0-9a-f-]+)\\/read$/i);
+    const notificationMatch=path.match(/^\/api\/v1\/notifications\/([0-9a-f-]+)\/read$/i);
     if(notificationMatch&&request.method==="POST"){
       const p=await identity(request,env);
       return await db(env,async c=>{
