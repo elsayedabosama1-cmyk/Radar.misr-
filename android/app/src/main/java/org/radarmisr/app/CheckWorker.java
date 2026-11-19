@@ -59,6 +59,8 @@ public class CheckWorker extends Worker {
             long now = System.currentTimeMillis();
             SharedPreferences sp = getApplicationContext().getSharedPreferences("notif", Context.MODE_PRIVATE);
             long last = sp.getLong("last", -1);
+            java.util.HashSet<String> topics = new java.util.HashSet<>();
+            for (String tp : sp.getString("topics", "").split("\\|")) if (!tp.isEmpty()) topics.add(tp);
             long max = 0;
             int count = 0;
             String title = "";
@@ -70,7 +72,8 @@ public class CheckWorker extends Worker {
                 long at = j.optLong("at", 0);
                 if (!(st.equals("published") || st.equals("scheduled")) || at > now) continue;
                 if (at > max) max = at;
-                if (last >= 0 && at > last) {
+                boolean wanted = topics.isEmpty() || topics.contains(j.optString("cat"));
+                if (last >= 0 && at > last && wanted) {
                     count++;
                     if (at > titleAt) { titleAt = at; title = j.optString("t"); }
                 }

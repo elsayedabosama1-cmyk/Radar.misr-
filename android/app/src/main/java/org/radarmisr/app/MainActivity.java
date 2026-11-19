@@ -44,6 +44,11 @@ public class MainActivity extends Activity {
         s.setDomStorageEnabled(true);
         web.addJavascriptInterface(new Object() {
             @JavascriptInterface
+            public void setTopics(String t) {
+                getSharedPreferences("notif", MODE_PRIVATE).edit().putString("topics", t == null ? "" : t).apply();
+            }
+
+            @JavascriptInterface
             public void share(String t) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
