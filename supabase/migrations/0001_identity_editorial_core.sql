@@ -182,11 +182,15 @@ begin
  select * into a from public.articles where id=p_article_id for update;
  if not found then raise exception 'article not found'; end if;
  if p_decision='start_review' then
-  if a.status not in ('submitted_for_review','in_review') then raise exception 'article is not awaiting review'; end if;
+  if a.status<>'submitted_for_review' then raise exception 'article is not awaiting review'; end if;
   v_status='in_review';
- elsif p_decision='approve' then v_status='approved';
- elsif p_decision='request_changes' then v_status='changes_requested';
- elsif p_decision='reject' then v_status='rejected';
+ elsif p_decision in ('approve','request_changes','reject') then
+  if a.status not in ('submitted_for_review','in_review') then
+   raise exception 'article must be under review before an editorial decision';
+  end if;
+  if p_decision='approve' then v_status='approved';
+  elsif p_decision='request_changes' then v_status='changes_requested';
+  else v_status='rejected'; end if;
  elsif p_decision='publish' then
   if a.status not in ('approved','scheduled','published') then raise exception 'article must be approved before publishing'; end if;
   if p_scheduled_at is not null and p_scheduled_at>now() then v_status='scheduled'; else v_status='published'; end if;
