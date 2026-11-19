@@ -26,6 +26,7 @@ create table if not exists public.profiles (
   constraint profiles_suspension_reason_len check (char_length(coalesce(suspension_reason,'')) <= 500)
 );
 create index if not exists profiles_role_active_idx on public.profiles(role,is_active);
+create unique index if not exists profiles_single_chairman_idx on public.profiles(role) where role='chairman';
 
 create table if not exists public.articles (
   id uuid primary key default gen_random_uuid(),
@@ -131,7 +132,8 @@ do $$ begin
   end if;
 end $$;
 grant usage on schema public to mirsad_app;
-grant select,insert,update on public.profiles to mirsad_app;
+grant select,insert on public.profiles to mirsad_app;
+grant update(display_name,avatar_url,role,is_active,suspended_until,suspension_reason,updated_at) on public.profiles to mirsad_app;
 grant select,insert,update on public.articles to mirsad_app;
 grant select,insert on public.article_reviews to mirsad_app;
 grant select,insert on public.audit_logs to mirsad_app;
