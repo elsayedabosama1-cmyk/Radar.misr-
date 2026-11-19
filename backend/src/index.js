@@ -194,6 +194,53 @@ export default { async fetch(request,env) {
       const p=await identity(request,env); requireLead(p); const b=await bodyJson(request);
       return await tx(env,async c=>json({article:await articleDecision(c,p,decisionMatch[1],b)},200,origin));
     }
+    // News source registry: management is restricted to editorial leadership.
+    if(path==="/api/v1/sources"&&request.method==="GET"){
+      const p=await identity(request,env); requireLead(p);
+      return await db(env,async c=>{
+        const q=await c.query("select id,name,region,category,url,import_method,active,trust_level,reuse_rights,last_checked_at,last_imported_at,connection_status,notes,created_at,updated_at from public.news_sources order by region,name limit 500");
+        return json({items:q.rows},200,origin);
+      });
+    }
+    if(path==="/api/v1/sources"&&request.method==="POST"){
+      const p=await identity(request,env); requireLead(p); const b=await bodyJson(request);
+      const name=safeText(b.name,180), region=safeText(b.region,20), urlText=safeText(b.url,2000);
+      const method=safeText(b.import_method,20)||"manual", rights=safeText(b.reuse_rights,30)||"unknown";
+      if(name.length<2) throw fail("اسم المصدر مطلوب");
+      if(!["local","arabic","international"].includes(region)) throw fail("تصنيف المصدر غير صحيح");
+      let parsed; try { parsed=new URL(urlText); } catch { throw fail("رابط المصدر غير صحيح"); }
+      if(!["https:","http:"].includes(parsed.protocol)) throw fail("يجب أن يبدأ الرابط بـ HTTP أو HTTPS");
+      if(!["manual","rss","api"].includes(method)) throw fail("طريقة الاستيراد غير صحيحة");
+      if(!["unknown","link_only","licensed","public_domain","permission_required","prohibited"].includes(rights)) throw fail("حالة حقوق الاستخدام غير صحيحة");
+      const trust=Math.max(1,Math.min(5,Number.isInteger(Number(b.trust_level))?Number(b.trust_level):3));
+      return await tx(env,async c=>{
+        const q=await c.query("insert into public.news_sources(name,region,category,url,import_method,active,trust_level,reuse_rights,notes,created_by) values($1,$2,$3,$4,$5,$6,$7,$8,$9,$10) returning *",
+          [name,region,safeText(b.category,100)||null,parsed.toString(),method,b.active!==false,trust,rights,safeText(b.notes,2000)||null,p.id]);
+        await audit(c,p.id,"news_source_created","news_source",q.rows[0].id,null,q.rows[0]);
+        return json({source:q.rows[0]},201,origin);
+      });
+    }
+    const sourceMatch=path.match(/^\\/api\\/v1\\/sources\\/([0-9a-f-]+)$/i);
+    if(sourceMatch&&request.method==="PATCH"){
+      const p=await identity(request,env); requireLead(p); const b=await bodyJson(request);
+      return await tx(env,async c=>{
+        const q=await c.query("select * from public.news_sources where id=$1 for update",[sourceMatch[1]]), old=q.rows[0];
+        if(!old) throw fail("المصدر غير موجود",404);
+        const name=b.name===undefined?old.name:safeText(b.name,180);
+        const region=b.region===undefined?old.region:safeText(b.region,20);
+        const method=b.import_method===undefined?old.import_method:safeText(b.import_method,20);
+        const rights=b.reuse_rights===undefined?old.reuse_rights:safeText(b.reuse_rights,30);
+        let urlText=old.url;
+        if(b.url!==undefined){try{const u=new URL(safeText(b.url,2000));if(!["http:","https:"].includes(u.protocol))throw 0;urlText=u.toString()}catch{throw fail("رابط المصدر غير صحيح")}}
+        if(name.length<2||!["local","arabic","international"].includes(region)||!["manual","rss","api"].includes(method)||!["unknown","link_only","licensed","public_domain","permission_required","prohibited"].includes(rights)) throw fail("بيانات المصدر غير صحيحة");
+        const trust=b.trust_level===undefined?old.trust_level:Math.max(1,Math.min(5,Number.isInteger(Number(b.trust_level))?Number(b.trust_level):old.trust_level));
+        const active=b.active===undefined?old.active:b.active===true;
+        const u=await c.query("update public.news_sources set name=$2,region=$3,category=$4,url=$5,import_method=$6,active=$7,trust_level=$8,reuse_rights=$9,notes=$10,connection_status=case when $7 then connection_status else 'disabled' end,updated_at=now() where id=$1 returning *",
+          [old.id,name,region,b.category===undefined?old.category:safeText(b.category,100)||null,urlText,method,active,trust,rights,b.notes===undefined?old.notes:safeText(b.notes,2000)||null]);
+        await audit(c,p.id,"news_source_updated","news_source",old.id,old,u.rows[0]);
+        return json({source:u.rows[0]},200,origin);
+      });
+    }
     if(path==="/api/v1/profiles"&&request.method==="GET"){
       const p=await identity(request,env); requireLead(p);
       return await db(env,async c=>{
