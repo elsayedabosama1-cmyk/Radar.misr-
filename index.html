@@ -136,6 +136,7 @@ body.dark{background:radial-gradient(1200px 500px at 80% -10%,#16345a 0,transpar
 <button class="ib" aria-label="الوضع الليلي" onclick="D.dark=!D.dark;save();render()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M20 14.5A8 8 0 0 1 9.5 4 8 8 0 1 0 20 14.5z"/></svg></button>
 <button class="ib" aria-label="الإدارة" onclick="adm()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/></svg></button></header>
 <div id="tk"><b id="tkl">عاجل</b><span id="tt"></span></div>
+<div id="netstate" role="status" style="display:none;padding:5px 12px;background:#fff4d6;color:#5a3d00;font-size:.88rem;font-weight:700;text-align:center">وضع عدم الاتصال — المسودات تُحفظ على هذا الجهاز</div>
 <div id="ins" style="display:none;background:var(--blue);color:#fff;padding:6px 14px;align-items:center;justify-content:space-between;font-weight:700"><span>ثبّت مِرصد على موبايلك</span><button onclick="inst()" style="border:0;border-radius:8px;padding:4px 14px;font:inherit;font-weight:700">تثبيت</button></div>
 <nav id="tabs"></nav><main id="v"></main><footer id="ft"></footer><div id="sh"></div><div id="ts"></div>
 <script>
@@ -164,6 +165,8 @@ function load(){try{D=JSON.parse(localStorage.getItem('rm2')||'null')}catch(e){D
  try{X=JSON.parse(localStorage.getItem('rmX')||'null')||X}catch(e){}
  pushTopics()}
 function save(){try{localStorage.setItem('rm2',JSON.stringify(D))}catch(e){toast('المساحة ممتلئة')}}
+function updateOfflineStatus(){const e=$('#netstate');if(!e)return;let online=true;try{if(window.Android&&Android.isOnline)online=Android.isOnline();else online=navigator.onLine}catch(x){}e.style.display=online?'none':'block';e.textContent=online?'':'وضع عدم الاتصال — المسودات محفوظة على الجهاز؛ المزامنة التلقائية لم تُفعّل بعد'}
+window.addEventListener('online',updateOfflineStatus);window.addEventListener('offline',updateOfflineStatus);
 function toast(m){const e=$('#ts');e.textContent=m;e.className='on';clearTimeout(toast.t);toast.t=setTimeout(()=>e.className='',2800)}
 function sheet(h){$('#sh').innerHTML=h;$('#sh').className='on'}
 function closeSheet(){$('#sh').className=''}
@@ -173,7 +176,7 @@ const vis=n=>(n.st==='published'||n.st==='scheduled')&&n.at<=now();
 const pub=()=>NEWS.filter(vis).sort((a,b)=>b.at-a.at);
 const gn=id=>NEWS.find(x=>x.id===id)||D.drafts.find(x=>x.id===id);
 function ticker(){const l=pub().filter(n=>n.cat==='عاجل').slice(0,5),e=$('#tk');if(!l.length){e.style.display='none';return}e.style.display='flex';tki=(tki+1)%l.length;$('#tt').textContent=l[tki].t}
-function render(){document.body.classList.toggle('adm',!!S.admin);applyTexts();document.body.classList.toggle('dark',!!D.dark);document.documentElement.style.setProperty('--fs',D.fs);$('#tabs').style.display=S.admin?'none':'flex';VC=pub().length;S.admin?renderAdmin():renderHome();navBar();bnav();ticker()}
+function render(){document.body.classList.toggle('adm',!!S.admin);applyTexts();updateOfflineStatus();document.body.classList.toggle('dark',!!D.dark);document.documentElement.style.setProperty('--fs',D.fs);$('#tabs').style.display=S.admin?'none':'flex';VC=pub().length;S.admin?renderAdmin():renderHome();navBar();bnav();ticker()}
 async function sync(){if(Date.now()-(D.ls||0)<6e5)return;try{const r=await fetch(RAW+FILE+'?t='+Date.now(),{cache:'no-store'});if(!r.ok)return;const j=await r.json();if(!Array.isArray(j.news))return;const nx={texts:j.texts||{},folders:j.folders||[],pages:j.pages||[],plan:j.plan||[],home:j.home||{},brands:j.brands||[],market:j.market||[]};if(JSON.stringify([j.news,nx])===JSON.stringify([NEWS,X]))return;NEWS=j.news;X=nx;try{localStorage.setItem('rmNews',JSON.stringify(NEWS));localStorage.setItem('rmX',JSON.stringify(X))}catch(e){}if(!S.admin&&$('#sh').className!=='on')render()}catch(e){}}
 function card(n){return`<article class="card" onclick="openN('${n.id}')">${n.img?`<div class="im" style="background-image:url(${imgU(n.img)})"><i class="wm"></i></div>`:''}<div class="cb"><span class="tg ${n.cat==='عاجل'?'br':''}">${n.cat}</span>${n.at>SINCE?'<span class="newchip">جديد</span>':''}<h3>${esc(n.t)}</h3><small>${ago(n.at)}${n.gov?' · '+esc(n.gov):''}</small></div></article>`}
 function nb(c){if(c==='محفوظ')return'';const f=Math.max(D.first,D.seenC[c]||0),k=pub().filter(n=>(c==='الكل'||n.cat===c)&&n.at>f).length;return k?`<i class="nbadge">${k>9?'9+':k}</i>`:''}
@@ -259,7 +262,7 @@ async function saveNews(){const f=collect();if(!f.t||!f.b)return toast('اكتب
  if(!old&&f.mode!=='draft'&&dup(f.t)&&!confirm('يوجد خبر شبيه بهذا العنوان. تكمل النشر؟'))return;
  const id=old?old.id:'n'+now().toString(36),bt=$('#sv');bt.disabled=true;bt.textContent='جاري الحفظ...';
  try{
-  if(f.mode==='draft'){D.drafts=D.drafts.filter(x=>x.id!==id);D.drafts.unshift({id,t:f.t,b:f.b,cat:f.cat,src:f.src,au:f.au,gov:f.gov,kw:f.kw,vid:f.vid,srcUrl:f.srcUrl,note:f.note,brand:f.brand,an:f.an,img:f.img,st:'draft',at:now(),later:0,fb:f.fb,h:[]});save()}
+  if(f.mode==='draft'){const draft={id,t:f.t,b:f.b,cat:f.cat,src:f.src,au:f.au,gov:f.gov,kw:f.kw,vid:f.vid,srcUrl:f.srcUrl,note:f.note,brand:f.brand,an:f.an,img:f.img,st:'draft',at:now(),later:0,fb:f.fb,h:[]};D.drafts=D.drafts.filter(x=>x.id!==id);D.drafts.unshift(draft);save();try{if(window.Android&&Android.queueOperation){const q={...draft,img:draft.img&&draft.img.startsWith('data:')?'[stored-locally-in-draft]':draft.img};Android.queueOperation('draft.save',JSON.stringify(q))}}catch(e){}}
   else{
    let img=f.img;if(img.startsWith('data:'))img=await upImg(img,id+'-'+now().toString(36)+'.jpg');
    await mutate(db=>{const ex=db.news.find(x=>x.id===id),data={t:f.t,b:f.b,cat:f.cat,src:f.src,au:f.au,gov:f.gov,kw:f.kw,vid:f.vid,srcUrl:f.srcUrl,note:f.note,brand:f.brand,an:f.an,img,st:later?'scheduled':'published',at:later?at:(ex&&ex.st==='published'?ex.at:now()),later:later?1:0,fb:f.fb};
