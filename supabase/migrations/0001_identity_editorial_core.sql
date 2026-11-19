@@ -70,7 +70,7 @@ drop trigger if exists articles_audit on public.articles;
 create trigger articles_audit after insert or update or delete on public.articles for each row execute function public.audit_article_changes();
 
 create or replace function public.audit_profile_security_changes() returns trigger language plpgsql security definer set search_path=public
-as $ begin
+as $profile_audit$ begin
  if old.role is distinct from new.role or old.is_active is distinct from new.is_active
     or old.suspended_until is distinct from new.suspended_until
     or old.suspension_reason is distinct from new.suspension_reason then
@@ -80,7 +80,7 @@ as $ begin
    jsonb_build_object('role',new.role,'is_active',new.is_active,'suspended_until',new.suspended_until,'suspension_reason',new.suspension_reason));
  end if;
  return new;
-end $;
+end $profile_audit$;
 drop trigger if exists profiles_security_audit on public.profiles;
 create trigger profiles_security_audit after update on public.profiles
 for each row execute function public.audit_profile_security_changes();
