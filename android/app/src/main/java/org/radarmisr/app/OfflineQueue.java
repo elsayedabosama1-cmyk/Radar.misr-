@@ -19,7 +19,7 @@ public final class OfflineQueue extends SQLiteOpenHelper {
     public synchronized boolean enqueue(String id, String kind, String payload, long createdAt) {
         android.content.ContentValues v = new android.content.ContentValues();
         v.put("id", id); v.put("kind", kind); v.put("payload", payload); v.put("created_at", createdAt); v.put("state", "pending");
-        return getWritableDatabase().insertWithOnConflict("outbox", null, v, SQLiteDatabase.CONFLICT_IGNORE) != -1;
+        return getWritableDatabase().insertWithOnConflict("outbox", null, v, SQLiteDatabase.CONFLICT_REPLACE) != -1;
     }
 
     public synchronized String list() {
