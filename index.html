@@ -262,7 +262,7 @@ async function saveNews(){const f=collect();if(!f.t||!f.b)return toast('اكتب
  if(!old&&f.mode!=='draft'&&dup(f.t)&&!confirm('يوجد خبر شبيه بهذا العنوان. تكمل النشر؟'))return;
  const id=old?old.id:'n'+now().toString(36),bt=$('#sv');bt.disabled=true;bt.textContent='جاري الحفظ...';
  try{
-  if(f.mode==='draft'){const draft={id,t:f.t,b:f.b,cat:f.cat,src:f.src,au:f.au,gov:f.gov,kw:f.kw,vid:f.vid,srcUrl:f.srcUrl,note:f.note,brand:f.brand,an:f.an,img:f.img,st:'draft',at:now(),later:0,fb:f.fb,h:[]};D.drafts=D.drafts.filter(x=>x.id!==id);D.drafts.unshift(draft);save();try{if(window.Android&&Android.queueOperation){const q={...draft,img:draft.img&&draft.img.startsWith('data:')?'[stored-locally-in-draft]':draft.img};Android.queueOperation('draft.save',JSON.stringify(q))}}catch(e){}}
+  if(f.mode==='draft'){const draft={id,t:f.t,b:f.b,cat:f.cat,src:f.src,au:f.au,gov:f.gov,kw:f.kw,vid:f.vid,srcUrl:f.srcUrl,note:f.note,brand:f.brand,an:f.an,img:f.img,st:'draft',at:now(),later:0,fb:f.fb,h:[]};D.drafts=D.drafts.filter(x=>x.id!==id);D.drafts.unshift(draft);save();try{if(window.Android&&Android.queueOperation){Android.queueOperation('draft.save',JSON.stringify(draft))}}catch(e){}}
   else{
    let img=f.img;if(img.startsWith('data:'))img=await upImg(img,id+'-'+now().toString(36)+'.jpg');
    await mutate(db=>{const ex=db.news.find(x=>x.id===id),data={t:f.t,b:f.b,cat:f.cat,src:f.src,au:f.au,gov:f.gov,kw:f.kw,vid:f.vid,srcUrl:f.srcUrl,note:f.note,brand:f.brand,an:f.an,img,st:later?'scheduled':'published',at:later?at:(ex&&ex.st==='published'?ex.at:now()),later:later?1:0,fb:f.fb};
