@@ -39,12 +39,26 @@ public final class SyncWorker extends Worker {
         try {
             for (int i=0; i<pending.length() && i<50; i++) {
                 JSONObject row = pending.getJSONObject(i);
+                String id = row.optString("id", "");
+                JSONObject payload;
+                try { payload = new JSONObject(row.getString("payload")); }
+                catch (Exception malformed) { queue.markState(id, "rejected"); continue; }
+
+                // The current API accepts metadata-only drafts. A base64 image would
+                // exceed the API request limit and cannot be uploaded until object
+                // storage is configured, so preserve it locally as an explicit conflict.
+                String image = payload.optString("img", "");
+                if (image.startsWith("data:")) {
+                    queue.markState(id, "conflict");
+                    continue;
+                }
                 JSONObject operation = new JSONObject();
-                operation.put("id", row.getString("id"));
+                operation.put("id", id);
                 operation.put("kind", row.getString("kind"));
-                operation.put("payload", new JSONObject(row.getString("payload")));
+                operation.put("payload", payload);
                 batch.put(operation);
             }
+            if (batch.length() == 0) return Result.success();
             JSONObject body = new JSONObject().put("operations", batch);
             URL url = new URL(base.replaceAll("/+$", "") + "/api/v1/sync");
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
