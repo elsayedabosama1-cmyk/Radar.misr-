@@ -1,10 +1,19 @@
 name: Build APK
+
 on:
   push:
-    paths-ignore: ['data/**','photos/**','scripts/**','**.md','.github/workflows/import-news.yml']
+    paths-ignore:
+      - 'data/**'
+      - 'photos/**'
+      - 'scripts/**'
+      - '**.md'
+      - '.github/workflows/import-news.yml'
+      - '.github/workflows/release-apk.yml'
   workflow_dispatch:
+
 permissions:
-  contents: write
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -15,15 +24,17 @@ jobs:
           mkdir -p android/app/src/main/assets
           cp index.html logo.png icon-192.png icon-512.png manifest.json android/app/src/main/assets/
       - uses: actions/setup-java@v4
-        with: { distribution: temurin, java-version: '17' }
+        with:
+          distribution: temurin
+          java-version: '17'
       - uses: gradle/actions/setup-gradle@v4
-        with: { gradle-version: '8.7' }
-      - run: gradle assembleDebug --no-daemon
+        with:
+          gradle-version: '8.7'
+      - name: Build debug APK
+        run: gradle assembleDebug --no-daemon
         working-directory: android
-      - name: Publish release
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          cp android/app/build/outputs/apk/debug/app-debug.apk mirsad.apk
-          gh release delete mirsad-apk --yes --cleanup-tag || true
-          gh release create mirsad-apk mirsad.apk --target "$GITHUB_SHA" --title "مِرصد (APK)" --notes "نزّل mirsad.apk وثبّته على الموبايل."
+      - uses: actions/upload-artifact@v4
+        with:
+          name: mirsad-debug-apk
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 14
