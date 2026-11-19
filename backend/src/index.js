@@ -92,7 +92,9 @@ export default { async fetch(request,env) {
   try {
     if(path==="/health"&&request.method==="GET") return json({ok:true,service:"mirsad-api",database:"not_checked"},200,origin);
     if(path==="/api/v1/articles"&&request.method==="GET"){
-      const p=await identity(request,env), staff=[ROLE.CHAIRMAN,ROLE.EDITOR,ROLE.REPORTER].includes(p.role);
+      const bearer=(request.headers.get("authorization")||"").startsWith("Bearer ");
+      const p=bearer?await identity(request,env):null;
+      const staff=p&&[ROLE.CHAIRMAN,ROLE.EDITOR,ROLE.REPORTER].includes(p.role);
       return await db(env,async c=>{
         const q=staff&&p.role!==ROLE.REPORTER
           ? await c.query("select a.id,a.title,a.summary,a.section,a.governorate,a.status,a.author_id,a.assigned_to,a.created_at,a.updated_at,a.published_at,p.display_name as author_name from public.articles a join public.profiles p on p.id=a.author_id order by a.updated_at desc limit 100")
