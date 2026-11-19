@@ -4,6 +4,11 @@ import android.content.Context;
 import androidx.annotation.NonNull;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
+import androidx.work.OneTimeWorkRequest;
+import androidx.work.ExistingWorkPolicy;
+import androidx.work.Constraints;
+import androidx.work.NetworkType;
+import androidx.work.WorkManager;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.OutputStream;
@@ -73,6 +78,13 @@ public final class SyncWorker extends Worker {
                 String state = result.optString("status", "");
                 if ("acknowledged".equals(state)) queue.acknowledge(id);
                 else if ("conflict".equals(state) || "rejected".equals(state)) queue.markState(id, state);
+            }
+            if (queue.pendingCount() > 0) {
+                OneTimeWorkRequest next = new OneTimeWorkRequest.Builder(SyncWorker.class)
+                        .setConstraints(new Constraints.Builder().setRequiredNetworkType(NetworkType.CONNECTED).build())
+                        .build();
+                WorkManager.getInstance(getApplicationContext()).enqueueUniqueWork(
+                        "mirsad-outbox-sync", ExistingWorkPolicy.APPEND_OR_REPLACE, next);
             }
             return Result.success();
         } catch (Exception e) { return Result.retry(); }
