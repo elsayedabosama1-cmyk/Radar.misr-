@@ -59,6 +59,12 @@ public final class OfflineQueue extends SQLiteOpenHelper {
         getWritableDatabase().update("outbox", v, "id=?", new String[]{id});
     }
 
+    public synchronized int pendingCount() {
+        try (Cursor c = getReadableDatabase().rawQuery("SELECT COUNT(*) FROM outbox WHERE state='pending'", null)) {
+            return c.moveToFirst() ? c.getInt(0) : 0;
+        }
+    }
+
     public synchronized int count() {
         try (Cursor c = getReadableDatabase().rawQuery("SELECT COUNT(*) FROM outbox", null)) {
             return c.moveToFirst() ? c.getInt(0) : 0;
