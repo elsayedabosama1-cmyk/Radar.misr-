@@ -7,6 +7,8 @@ import androidx.work.WorkerParameters;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import java.io.OutputStream;
+import java.io.InputStream;
+import java.io.ByteArrayOutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
@@ -54,7 +56,13 @@ public final class SyncWorker extends Worker {
             int status = connection.getResponseCode();
             if (status == 401 || status == 403) { connection.disconnect(); return Result.failure(); }
             if (status < 200 || status >= 300) { connection.disconnect(); return Result.retry(); }
-            JSONObject response = new JSONObject(new String(connection.getInputStream().readAllBytes(), StandardCharsets.UTF_8));
+            InputStream input = connection.getInputStream();
+            ByteArrayOutputStream responseBytes = new ByteArrayOutputStream();
+            byte[] buffer = new byte[8192];
+            int read;
+            while ((read = input.read(buffer)) != -1) responseBytes.write(buffer, 0, read);
+            input.close();
+            JSONObject response = new JSONObject(new String(responseBytes.toByteArray(), StandardCharsets.UTF_8));
             connection.disconnect();
             JSONArray results = response.optJSONArray("results");
             if (results == null) return Result.retry();
