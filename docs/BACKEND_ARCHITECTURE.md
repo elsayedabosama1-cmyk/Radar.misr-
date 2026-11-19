@@ -16,7 +16,7 @@ Do not create a Supabase project or apply the legacy Supabase migration. Files i
 - Do not enable paid plans, paid add-ons, paid AI APIs, or automatic upgrades.
 - Do not add a payment card or billing method as part of setup.
 - Never describe a service as guaranteed free forever or unlimited.
-- Track Neon compute/storage/transfer and Cloudflare Workers/R2 quotas.
+- Track Neon compute/storage/transfer/Object Storage and Cloudflare Workers quotas.
 - If a quota is reached, fail safely or pause affected non-critical work rather than silently opting into paid usage.
 - Before enabling any feature whose overage can create charges, verify account-level billing controls and obtain explicit owner approval. No such approval is currently given.
 
@@ -24,9 +24,9 @@ Do not create a Supabase project or apply the legacy Supabase migration. Files i
 The provider's published limits can change. Planning baseline recorded on 2026-11-19:
 - Neon Free: up to 100 projects; 100 CU-hours per project per month; 1 GB Postgres storage per project; Managed Better Auth included up to 60,000 monthly active users.
 - Cloudflare Workers Free: 100,000 requests per day; 10 ms CPU time per invocation.
-- Neon Object Storage Standard free allowance: 10 GB-month storage, 1 million Class A operations/month, 10 million Class B operations/month, and no egress charge.
+- Neon Object Storage: 5 GB per project included in the published Free plan.
 
-These are quotas, not unlimited capacity or a service-level guarantee. R2 usage above its free allowance can be billable if billing is enabled; do not enable billing or attach a payment method without explicit owner approval.
+These are quotas, not unlimited capacity or a service-level guarantee. Cloudflare R2 is deliberately excluded from the no-card baseline: enabling its usage-based subscription may require a payment method and over-limit usage can be billable. Do not enable it unless the owner explicitly changes the no-card requirement.
 
 ## Application security model
 The browser must never connect to Neon with a database credential. All protected operations go through the Cloudflare Worker API. The Worker validates the Better Auth session and enforces authorization server-side for every request.
@@ -39,7 +39,7 @@ Roles (no separate managing-editor role):
 
 Public visitors may read published articles without signing in. Audience accounts are separate from staff accounts. Public signup must never accept a client-supplied staff role.
 
-Every Worker route must apply authentication and role checks before database mutations. Use parameterized SQL, strict input validation, rate limiting for authentication and public write endpoints, secure cookie/session settings, CSRF protection where applicable, and an append-only audit trail for sensitive actions. Never expose database URLs, auth secrets, R2 credentials, or privileged tokens to the browser.
+Every Worker route must apply authentication and role checks before database mutations. Use parameterized SQL, strict input validation, rate limiting for authentication and public write endpoints, secure cookie/session settings, CSRF protection where applicable, and an append-only audit trail for sensitive actions. Never expose database URLs, auth secrets, Object Storage credentials, or privileged tokens to the browser.
 
 ## Editorial workflow
 Preserve the approved statuses: draft, submitted_for_review, in_review, changes_requested, approved, scheduled, published, rejected, archived.
@@ -53,12 +53,12 @@ Reporters can create/edit their own drafts and submit them for review. The edito
 4. Keep authorization in a dedicated server-side policy layer and Worker endpoints; do not trust client-side role flags.
 5. Implement account provisioning safely: the first chairman is established through a one-time owner-controlled bootstrap procedure; staff accounts are invited/approved; audience signup remains open.
 6. Implement article, review, task, notification, source-management, media and audit APIs.
-7. Store media in R2 using private upload authorization and public delivery only for approved/published assets.
+7. Store media in Neon Object Storage using private upload authorization and public delivery only for approved/published assets.
 8. Add automated tests for role boundaries, article state transitions, suspension rules, public isolation, upload authorization, and audit coverage.
 9. Run migrations and end-to-end tests only after the owner creates provider accounts and configures credentials privately.
 
 ## Secrets and configuration
-Use Cloudflare Worker secrets/environment bindings for the Neon database connection string (server-side only), Better Auth secret and trusted origin configuration, and R2 bucket bindings/credentials as appropriate.
+Use Cloudflare Worker secrets/environment bindings for the Neon database connection string (server-side only), Better Auth secret and trusted origin configuration, and Neon Object Storage S3-compatible credentials as appropriate.
 
 Do not commit credentials, tokens, environment files, database URLs, or signing keys. Do not ask the owner to paste secret values into chat. The owner should enter them directly into the provider dashboard or approved secret manager.
 
