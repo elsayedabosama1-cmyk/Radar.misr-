@@ -1,0 +1,52 @@
+name: Validate Neon and Cloudflare backend
+
+on:
+  pull_request:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-neon.yml'
+  push:
+    paths:
+      - 'backend/**'
+      - '.github/workflows/backend-neon.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  schema-and-worker:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: mirsad_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d mirsad_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install PostgreSQL client
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y postgresql-client
+      - name: Apply provider-neutral schema to clean PostgreSQL
+        env:
+          PGPASSWORD: postgres
+        run: |
+          psql -h localhost -U postgres -d mirsad_test -v ON_ERROR_STOP=1 -f backend/db/migrations/0001_core.sql
+      - name: Install Worker dependencies
+        working-directory: backend
+        run: npm install --ignore-scripts
+      - name: Check Worker JavaScript syntax
+        working-directory: backend
+        run: npm run check
