@@ -16,9 +16,11 @@ function fail(message,status=400){ const e=new Error(message); e.status=status; 
 function safeText(v,max=5000){ return typeof v==="string" ? v.trim().slice(0,max) : ""; }
 function isUuid(v){ return typeof v==="string" && /^[0-9a-f]{8}-[0-9a-f]{4}-[1-8][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(v); }
 async function bodyJson(request){
-  const len=Number(request.headers.get("content-length")||0);
-  if(len>250000) throw fail("حجم الطلب أكبر من المسموح",413);
-  try { return await request.json(); } catch { throw fail("صيغة البيانات غير صحيحة",400); }
+  const declared=Number(request.headers.get("content-length")||0);
+  if(declared>250000) throw fail("حجم الطلب أكبر من المسموح",413);
+  const raw=await request.text();
+  if(raw.length>250000) throw fail("حجم الطلب أكبر من المسموح",413);
+  try { return JSON.parse(raw); } catch { throw fail("صيغة البيانات غير صحيحة",400); }
 }
 async function db(env,fn){
   if(!env.HYPERDRIVE?.connectionString) throw fail("قاعدة البيانات غير موصلة بعد",503);
