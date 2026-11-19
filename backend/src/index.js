@@ -241,6 +241,65 @@ export default { async fetch(request,env) {
         return json({source:u.rows[0]},200,origin);
       });
     }
+    // Editorial assignments and private in-app notifications.
+    if(path==="/api/v1/tasks"&&request.method==="GET"){
+      const p=await identity(request,env); requireStaff(p);
+      return await db(env,async c=>{
+        const q=p.role===ROLE.CHAIRMAN||p.role===ROLE.EDITOR
+          ? await c.query("select t.*,a.title as article_title,assignee.display_name as assignee_name,creator.display_name as creator_name from public.editorial_tasks t join public.profiles assignee on assignee.id=t.assigned_to join public.profiles creator on creator.id=t.created_by left join public.articles a on a.id=t.article_id order by case t.priority when 'urgent' then 0 when 'high' then 1 else 2 end,t.due_at nulls last limit 300")
+          : await c.query("select t.*,a.title as article_title from public.editorial_tasks t left join public.articles a on a.id=t.article_id where t.assigned_to=$1 order by t.due_at nulls last limit 200",[p.id]);
+        return json({items:q.rows},200,origin);
+      });
+    }
+    if(path==="/api/v1/tasks"&&request.method==="POST"){
+      const p=await identity(request,env); requireLead(p); const b=await bodyJson(request);
+      const title=safeText(b.title,240), details=safeText(b.details,4000)||null, assignee=safeText(b.assigned_to,64);
+      const priority=safeText(b.priority,20)||"normal";
+      if(title.length<3||!isUuid(assignee)) throw fail("عنوان المهمة والمحرر المسؤول مطلوبان");
+      if(!["low","normal","high","urgent"].includes(priority)) throw fail("درجة أولوية المهمة غير صحيحة");
+      const due=b.due_at&&Number.isFinite(Date.parse(b.due_at))?new Date(b.due_at).toISOString():null;
+      return await tx(env,async c=>{
+        const target=await c.query("select id,role,is_active from public.profiles where id=$1",[assignee]);
+        if(!target.rows[0]||target.rows[0].role!=="reporter"||!target.rows[0].is_active) throw fail("المكلف يجب أن يكون صحفيًا نشطًا",422);
+        const q=await c.query("insert into public.editorial_tasks(title,details,assigned_to,created_by,priority,due_at,article_id) values($1,$2,$3,$4,$5,$6,$7) returning *",
+          [title,details,assignee,p.id,priority,due,isUuid(b.article_id)?b.article_id:null]);
+        await c.query("insert into public.internal_notifications(recipient_id,title,body,event_type,entity_type,entity_id) values($1,$2,$3,'task_assigned','task',$4)",
+          [assignee,"مهمة تحريرية جديدة",title,q.rows[0].id]);
+        await audit(c,p.id,"editorial_task_created","task",q.rows[0].id,null,q.rows[0]);
+        return json({task:q.rows[0]},201,origin);
+      });
+    }
+    const taskMatch=path.match(/^\\/api\\/v1\\/tasks\\/([0-9a-f-]+)$/i);
+    if(taskMatch&&request.method==="PATCH"){
+      const p=await identity(request,env); requireStaff(p); const b=await bodyJson(request);
+      return await tx(env,async c=>{
+        const q=await c.query("select * from public.editorial_tasks where id=$1 for update",[taskMatch[1]]), old=q.rows[0];
+        if(!old) throw fail("المهمة غير موجودة",404);
+        if(p.role!==ROLE.CHAIRMAN&&p.role!==ROLE.EDITOR&&old.assigned_to!==p.id) throw fail("لا يمكنك تعديل هذه المهمة",403);
+        const status=b.status===undefined?old.status:safeText(b.status,20);
+        if(!["open","in_progress","completed","cancelled"].includes(status)) throw fail("حالة المهمة غير صحيحة");
+        const details=b.details===undefined?old.details:safeText(b.details,4000)||null;
+        const u=await c.query("update public.editorial_tasks set status=$2,details=$3,updated_at=now() where id=$1 returning *",[old.id,status,details]);
+        await audit(c,p.id,"editorial_task_updated","task",old.id,old,u.rows[0]);
+        return json({task:u.rows[0]},200,origin);
+      });
+    }
+    if(path==="/api/v1/notifications"&&request.method==="GET"){
+      const p=await identity(request,env);
+      return await db(env,async c=>{
+        const q=await c.query("select id,title,body,event_type,entity_type,entity_id,read_at,created_at from public.internal_notifications where recipient_id=$1 order by created_at desc limit 100",[p.id]);
+        return json({items:q.rows},200,origin);
+      });
+    }
+    const notificationMatch=path.match(/^\\/api\\/v1\\/notifications\\/([0-9a-f-]+)\\/read$/i);
+    if(notificationMatch&&request.method==="POST"){
+      const p=await identity(request,env);
+      return await db(env,async c=>{
+        const q=await c.query("update public.internal_notifications set read_at=coalesce(read_at,now()) where id=$1 and recipient_id=$2 returning id,read_at",[notificationMatch[1],p.id]);
+        if(!q.rows[0]) throw fail("الإشعار غير موجود",404);
+        return json({notification:q.rows[0]},200,origin);
+      });
+    }
     if(path==="/api/v1/profiles"&&request.method==="GET"){
       const p=await identity(request,env); requireLead(p);
       return await db(env,async c=>{
