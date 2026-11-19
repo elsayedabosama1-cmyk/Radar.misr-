@@ -113,7 +113,7 @@ function load(){try{D=JSON.parse(localStorage.getItem('rm2')||'null')}catch(e){D
  D.saved=D.saved||[];D.drafts=D.drafts||[];D.seenC=D.seenC||{};D.first=D.first||now();
  SINCE=D.last||D.first;D.last=now();save();
  try{NEWS=JSON.parse(localStorage.getItem('rmNews')||'[]')}catch(e){NEWS=[]}
- try{TOK=localStorage.getItem('rmTok')||''}catch(e){}
+ try{TOK=sessionStorage.getItem('rmTok')||'';localStorage.removeItem('rmTok')}catch(e){}
  try{X=JSON.parse(localStorage.getItem('rmX')||'null')||X}catch(e){}
  pushTopics()}
 function save(){try{localStorage.setItem('rm2',JSON.stringify(D))}catch(e){toast('المساحة ممتلئة')}}
@@ -175,7 +175,7 @@ function fav(id){const i=D.saved.indexOf(id);i<0?D.saved.push(id):D.saved.splice
 /* ===== الإدارة (بمفتاح GitHub) ===== */
 async function gh(m,path,body,tok){return fetch(API+path+(m==='GET'?'?ref='+BR+'&t='+Date.now():''),{method:m,headers:{Authorization:'Bearer '+(tok||TOK),Accept:'application/vnd.github+json'},body:body?JSON.stringify(body):undefined,cache:'no-store'})}
 function adm(){if(S.admin){S.admin=0;render()}else if(TOK){S.admin=1;S.tab='dash';render()}else sheet(`<div class="box"><h3>دخول الإدارة</h3><small>الدخول بمفتاح GitHub الخاص بك. بيتخزّن على الجهاز ده بس.<br>أنشئ مفتاح من <a href="https://github.com/settings/personal-access-tokens/new" style="color:var(--blue)">هنا</a>: Only select repositories ← Mirsad ، و Contents: Read and write.</small><input id="lp" type="password" placeholder="الصق المفتاح هنا"><button class="pb" onclick="doLogin()">دخول</button><button class="ob" onclick="closeSheet()">إلغاء</button></div>`)}
-async function doLogin(){const t=$('#lp').value.trim();if(!t)return;try{const r=await gh('GET','data',null,t);if(r.status===401||r.status===403||r.status===404)return toast('المفتاح غير صحيح أو مالوش صلاحية على المستودع');TOK=t;try{localStorage.setItem('rmTok',t)}catch(e){}S.admin=1;S.tab='dash';closeSheet();render()}catch(e){toast('مفيش اتصال بالإنترنت')}}
+async function doLogin(){const t=$('#lp').value.trim();if(!t)return;try{const r=await gh('GET','data',null,t);if(r.status===401||r.status===403||r.status===404)return toast('المفتاح غير صحيح أو مالوش صلاحية على المستودع');TOK=t;try{sessionStorage.setItem('rmTok',t)}catch(e){}S.admin=1;S.tab='dash';closeSheet();render()}catch(e){toast('مفيش اتصال بالإنترنت')}}
 async function mutate(fn,msg){
  for(let i=0;i<3;i++){
   const r=await gh('GET',FILE);let db={news:[]},sha;
