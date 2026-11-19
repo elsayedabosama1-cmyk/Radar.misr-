@@ -257,7 +257,7 @@ public class MainActivity extends Activity {
                             .setRequiredNetworkType(NetworkType.CONNECTED).build())
                     .build();
             WorkManager.getInstance(this).enqueueUniqueWork("mirsad-outbox-sync",
-                    ExistingWorkPolicy.KEEP, request);
+                    ExistingWorkPolicy.APPEND_OR_REPLACE, request);
         } catch (Exception ignored) { }
     }
 
