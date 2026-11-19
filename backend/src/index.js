@@ -220,7 +220,7 @@ export default { async fetch(request,env) {
         return json({source:q.rows[0]},201,origin);
       });
     }
-    const sourceMatch=path.match(/^\\/api\\/v1\\/sources\\/([0-9a-f-]+)$/i);
+    const sourceMatch=path.match(/^\/api\/v1\/sources\/([0-9a-f-]+)$/i);
     if(sourceMatch&&request.method==="PATCH"){
       const p=await identity(request,env); requireLead(p); const b=await bodyJson(request);
       return await tx(env,async c=>{
@@ -269,7 +269,7 @@ export default { async fetch(request,env) {
         return json({task:q.rows[0]},201,origin);
       });
     }
-    const taskMatch=path.match(/^\\/api\\/v1\\/tasks\\/([0-9a-f-]+)$/i);
+    const taskMatch=path.match(/^\/api\/v1\/tasks\/([0-9a-f-]+)$/i);
     if(taskMatch&&request.method==="PATCH"){
       const p=await identity(request,env); requireStaff(p); const b=await bodyJson(request);
       return await tx(env,async c=>{
@@ -291,7 +291,7 @@ export default { async fetch(request,env) {
         return json({items:q.rows},200,origin);
       });
     }
-    const notificationMatch=path.match(/^\\/api\\/v1\\/notifications\\/([0-9a-f-]+)\\/read$/i);
+    const notificationMatch=path.match(/^\/api\/v1\/notifications\/([0-9a-f-]+)\\/read$/i);
     if(notificationMatch&&request.method==="POST"){
       const p=await identity(request,env);
       return await db(env,async c=>{
