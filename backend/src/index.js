@@ -158,6 +158,21 @@ export default { async fetch(request,env) {
       const p=await identity(request,env); requireLead(p); const b=await bodyJson(request);
       return await tx(env,async c=>json({article:await articleDecision(c,p,decisionMatch[1],b)},200,origin));
     }
+    if(path==="/api/v1/profiles"&&request.method==="GET"){
+      const p=await identity(request,env); requireLead(p);
+      return await db(env,async c=>{
+        const q=await c.query("select id,email,display_name,avatar_url,role,is_active,suspended_until,suspension_reason,created_at from public.profiles order by created_at desc limit 300");
+        return json({items:q.rows},200,origin);
+      });
+    }
+    if(path==="/api/v1/audit"&&request.method==="GET"){
+      const p=await identity(request,env);
+      if(p.role!==ROLE.CHAIRMAN) throw fail("سجل التدقيق متاح لرئيس مجلس الإدارة فقط",403);
+      return await db(env,async c=>{
+        const q=await c.query("select id,actor_id,action,entity_type,entity_id,before_data,after_data,created_at from public.audit_logs order by created_at desc limit 100");
+        return json({items:q.rows},200,origin);
+      });
+    }
     const roleMatch=path.match(/^\/api\/v1\/profiles\/([0-9a-f-]+)\/role$/i);
     if(roleMatch&&request.method==="PATCH"){
       const p=await identity(request,env);
