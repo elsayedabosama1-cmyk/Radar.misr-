@@ -4,7 +4,11 @@ android {
     namespace 'org.radarmisr.app'
     compileSdk 34
 
+    buildFeatures { buildConfig true }
+
     defaultConfig {
+        def syncApi = System.getenv('MIRSAD_API_BASE_URL') ?: ''
+        buildConfigField 'String', 'MIRSAD_API_BASE_URL', '"' + syncApi.replace('"', '') + '"'
         applicationId 'org.radarmisr.app'
         minSdk 24
         targetSdk 34
