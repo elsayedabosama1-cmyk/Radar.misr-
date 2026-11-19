@@ -93,8 +93,14 @@ public class MainActivity extends Activity {
 
             @JavascriptInterface
             public boolean queueOperation(String kind, String payload) {
-                if (kind == null || payload == null || payload.length() > 2000000) return false;
-                return offlineQueue.enqueue(UUID.randomUUID().toString(), kind, payload, System.currentTimeMillis());
+                if (kind == null || payload == null || payload.length() > 10000000) return false;
+                String operationId = UUID.randomUUID().toString();
+                try {
+                    org.json.JSONObject item = new org.json.JSONObject(payload);
+                    String entityId = item.optString("id", "");
+                    if (!entityId.isEmpty()) operationId = kind + ":" + entityId;
+                } catch (Exception ignored) { }
+                return offlineQueue.enqueue(operationId, kind, payload, System.currentTimeMillis());
             }
 
             @JavascriptInterface
