@@ -203,14 +203,18 @@ create or replace function public.set_profile_status(p_user_id uuid,p_active boo
 returns void language plpgsql security definer set search_path=public as $$
 declare target public.profiles%rowtype;
 begin
- if not public.is_chairman() then raise exception 'chairman required' using errcode='42501'; end if;
  select * into target from public.profiles where user_id=p_user_id for update;
  if not found then raise exception 'profile not found'; end if;
- if target.role='chairman' and (not p_active or (p_until is not null and p_until>now())) and
+ -- The chairman may suspend any account. The editor-in-chief may suspend reporters only.
+ if not public.is_chairman() and not
+    (public.current_profile_role()='editor_in_chief' and target.role='reporter') then
+  raise exception 'not allowed to change this account status' using errcode='42501';
+ end if;
+ if target.role='chairman' and (not public.is_chairman() or not p_active or (p_until is not null and p_until>now())) and
  (select count(*) from public.profiles where role='chairman' and is_active and (suspended_until is null or suspended_until<=now()))<=1
  then raise exception 'cannot suspend the last active chairman'; end if;
  update public.profiles set is_active=p_active,suspended_until=p_until,suspension_reason=p_reason where user_id=p_user_id;
-end $$;
+end $;
 
 create or replace function public.set_profile_role(p_user_id uuid,p_role public.mirsad_role)
 returns void language plpgsql security definer set search_path=public as $$
