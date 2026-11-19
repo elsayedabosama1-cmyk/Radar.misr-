@@ -99,7 +99,7 @@ export default { async fetch(request,env) {
   }});
   const url=new URL(request.url), path=url.pathname;
   try {
-    if(path==="/health"&&request.method==="GET") return json({ok:true,service:"mirsad-api",database:"not_checked"},200,origin);
+    if(path==="/health"&&request.method==="GET"){ await db(env,async c=>{ await c.query("select 1"); }); return json({ok:true,service:"mirsad-api",database:"connected"},200,origin); }
     if(path==="/api/v1/sync"&&request.method==="POST"){
       const p=await identity(request,env); requireStaff(p);
       const b=await bodyJson(request), ops=Array.isArray(b.operations)?b.operations:[];
