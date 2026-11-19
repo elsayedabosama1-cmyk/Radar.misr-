@@ -239,14 +239,14 @@ grant execute on function public.set_profile_status(uuid,boolean,timestamptz,tex
 grant execute on function public.set_profile_role(uuid,public.mirsad_role) to authenticated;
 
 create or replace function public.publish_due_articles()
-returns integer language plpgsql security definer set search_path=public as $
+returns integer language plpgsql security definer set search_path=public as $publish_due$
 declare v_count integer;
 begin
  update public.articles set status='published',published_at=coalesce(published_at,now()),version=version+1
  where status='scheduled' and scheduled_at is not null and scheduled_at<=now();
  get diagnostics v_count = row_count;
  return v_count;
-end $;
+end $publish_due$;
 revoke all on function public.publish_due_articles() from public,anon,authenticated;
 grant execute on function public.publish_due_articles() to service_role;
 commit;
