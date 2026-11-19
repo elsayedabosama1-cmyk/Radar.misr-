@@ -4,6 +4,10 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.Network;
+import android.net.NetworkCapabilities;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
@@ -28,10 +32,12 @@ import androidx.work.WorkManager;
 
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
+import java.util.UUID;
 
 public class MainActivity extends Activity {
     private WebView web;
     private ValueCallback<Uri[]> fileCb;
+    private OfflineQueue offlineQueue;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -52,6 +58,7 @@ public class MainActivity extends Activity {
                         .build()
         );
 
+        offlineQueue = new OfflineQueue(this);
         web = new WebView(this);
         setContentView(web);
 
@@ -74,6 +81,27 @@ public class MainActivity extends Activity {
                         .putString("topics", topics == null ? "" : topics)
                         .apply();
             }
+
+            @JavascriptInterface
+            public boolean isOnline() {
+                ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+                Network n = cm == null ? null : cm.getActiveNetwork();
+                NetworkCapabilities caps = n == null || cm == null ? null : cm.getNetworkCapabilities(n);
+                return caps != null && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_INTERNET)
+                        && caps.hasCapability(NetworkCapabilities.NET_CAPABILITY_VALIDATED);
+            }
+
+            @JavascriptInterface
+            public boolean queueOperation(String kind, String payload) {
+                if (kind == null || payload == null || payload.length() > 2000000) return false;
+                return offlineQueue.enqueue(UUID.randomUUID().toString(), kind, payload, System.currentTimeMillis());
+            }
+
+            @JavascriptInterface
+            public String pendingOperations() { return offlineQueue.list(); }
+
+            @JavascriptInterface
+            public int pendingCount() { return offlineQueue.count(); }
 
             @JavascriptInterface
             public void share(String text) {
