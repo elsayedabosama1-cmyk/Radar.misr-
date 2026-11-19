@@ -69,6 +69,23 @@ end $$;
 drop trigger if exists articles_audit on public.articles;
 create trigger articles_audit after insert or update or delete on public.articles for each row execute function public.audit_article_changes();
 
+create or replace function public.audit_profile_security_changes() returns trigger language plpgsql security definer set search_path=public
+as $ begin
+ if old.role is distinct from new.role or old.is_active is distinct from new.is_active
+    or old.suspended_until is distinct from new.suspended_until
+    or old.suspension_reason is distinct from new.suspension_reason then
+  insert into public.audit_logs(actor_id,action,entity_type,entity_id,before_data,after_data)
+  values(auth.uid(),'update','profile',new.user_id::text,
+   jsonb_build_object('role',old.role,'is_active',old.is_active,'suspended_until',old.suspended_until,'suspension_reason',old.suspension_reason),
+   jsonb_build_object('role',new.role,'is_active',new.is_active,'suspended_until',new.suspended_until,'suspension_reason',new.suspension_reason));
+ end if;
+ return new;
+end $;
+drop trigger if exists profiles_security_audit on public.profiles;
+create trigger profiles_security_audit after update on public.profiles
+for each row execute function public.audit_profile_security_changes();
+
+
 create table if not exists public.editorial_tasks (
  id uuid primary key default gen_random_uuid(), title text not null, details text,
  assigned_to uuid not null references public.profiles(user_id), created_by uuid not null references public.profiles(user_id),
@@ -164,7 +181,10 @@ begin
  if not public.is_editorial_lead() then raise exception 'editorial lead required' using errcode='42501'; end if;
  select * into a from public.articles where id=p_article_id for update;
  if not found then raise exception 'article not found'; end if;
- if p_decision='approve' then v_status='approved';
+ if p_decision='start_review' then
+  if a.status not in ('submitted_for_review','in_review') then raise exception 'article is not awaiting review'; end if;
+  v_status='in_review';
+ elsif p_decision='approve' then v_status='approved';
  elsif p_decision='request_changes' then v_status='changes_requested';
  elsif p_decision='reject' then v_status='rejected';
  elsif p_decision='publish' then
@@ -217,4 +237,16 @@ grant execute on function public.submit_article(uuid) to authenticated;
 grant execute on function public.editorial_decision(uuid,text,text,timestamptz) to authenticated;
 grant execute on function public.set_profile_status(uuid,boolean,timestamptz,text) to authenticated;
 grant execute on function public.set_profile_role(uuid,public.mirsad_role) to authenticated;
+
+create or replace function public.publish_due_articles()
+returns integer language plpgsql security definer set search_path=public as $
+declare v_count integer;
+begin
+ update public.articles set status='published',published_at=coalesce(published_at,now()),version=version+1
+ where status='scheduled' and scheduled_at is not null and scheduled_at<=now();
+ get diagnostics v_count = row_count;
+ return v_count;
+end $;
+revoke all on function public.publish_due_articles() from public,anon,authenticated;
+grant execute on function public.publish_due_articles() to service_role;
 commit;
