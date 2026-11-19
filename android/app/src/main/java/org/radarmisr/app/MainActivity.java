@@ -94,12 +94,9 @@ public class MainActivity extends Activity {
             @JavascriptInterface
             public boolean queueOperation(String kind, String payload) {
                 if (kind == null || payload == null || payload.length() > 10000000) return false;
+                // Every edit is a distinct idempotent operation. Reusing kind:entityId
+                // would make the server replay the first receipt and silently skip later edits.
                 String operationId = UUID.randomUUID().toString();
-                try {
-                    org.json.JSONObject item = new org.json.JSONObject(payload);
-                    String entityId = item.optString("id", "");
-                    if (!entityId.isEmpty()) operationId = kind + ":" + entityId;
-                } catch (Exception ignored) { }
                 return offlineQueue.enqueue(operationId, kind, payload, System.currentTimeMillis());
             }
 
