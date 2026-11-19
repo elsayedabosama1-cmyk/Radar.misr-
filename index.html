@@ -82,6 +82,53 @@ body.dark{background:radial-gradient(1200px 500px at 80% -10%,#16345a 0,transpar
 @media(max-width:899px){#bn{display:flex}body{padding-bottom:70px}.portal,.pmain,.pside{display:contents}.portal>*{order:0}.pmain .lead{order:1}.mtiles{order:2}.pside .pan:nth-child(1){order:3}.pside .pan:nth-child(2){order:4}.ph,.lp{order:5}.pside .pan:nth-child(3){display:none}.portal{display:flex;flex-direction:column;gap:12px}}
 @media(min-width:900px){.mtiles{display:none}}
 .artimg{position:relative;border-radius:12px;overflow:hidden;margin-bottom:10px;background:#0006}.artimg img{display:block;width:100%;height:auto;max-height:85vh;object-fit:contain}
+
+/* Mirsad mobile news front page refresh */
+@media(max-width:899px){
+  :root{--navy:#071f40;--blue:#174b86;--red:#c91f2b;--gold:#d8b66b;--bg:#f3f6fb;--ln:#dce4ef}
+  body{background:var(--bg);padding-bottom:82px}
+  header{min-height:66px;padding:8px 12px;background:linear-gradient(105deg,#061a35,#0b2c55);border-bottom:3px solid var(--red);gap:9px}
+  header img{width:43px;height:43px;border-radius:10px;border:1px solid rgba(255,255,255,.35);object-fit:cover}
+  header h1{font-size:1.5rem;letter-spacing:.2px}
+  .ib{width:35px;height:35px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.12)}
+  #tk{min-height:43px;padding:6px 12px;background:#c91f2b;font-size:.88rem}
+  #tkl{background:#a91520;padding:3px 9px;border-radius:7px}
+  #tabs{top:62px;padding:9px 10px;background:#fff;gap:7px;box-shadow:0 2px 8px #102b4b12}
+  #tabs button{white-space:nowrap;border-radius:9px;padding:6px 13px;background:#f3f6fb;border-color:#e0e6ef;font-size:.88rem}
+  #tabs button.on{background:#09264a;border-color:#09264a}
+  #v{padding:8px 12px 18px;max-width:680px}
+  .portal{gap:12px}
+  .lead{height:clamp(260px,72vw,350px);border-radius:14px;box-shadow:0 4px 14px #09264a20;background-position:center}
+  .leadT{padding:18px 14px 15px;background:linear-gradient(transparent,rgba(4,20,42,.96) 78%)}
+  .leadT h2{font-size:1.28rem;line-height:1.55;margin:8px 0 4px}
+  .leadT .tg{font-size:.78rem}
+  .mtiles{grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:0}
+  .mt{min-height:78px;border-radius:11px;padding:10px 3px;font-size:.73rem;box-shadow:0 2px 7px #09264a12}
+  .mt svg{width:25px;height:25px}
+  .ph{margin:4px 1px 0}
+  .ph h4{font-size:1.12rem;color:#09264a;border-inline-start:4px solid var(--red);padding-inline-start:9px}
+  .lp{display:grid!important;grid-template-columns:1fr!important;gap:8px;padding:0}
+  .lp .card{display:grid;grid-template-columns:112px minmax(0,1fr);align-items:stretch;margin:0;border-radius:12px;box-shadow:0 2px 8px #09264a0d}
+  .lp .im{height:100%;min-height:104px;border-radius:0}
+  .lp .cb{padding:9px 11px}
+  .lp .cb h3{font-size:.94rem;line-height:1.55;margin:4px 0}
+  .lp .cb small{font-size:.75rem}
+  .pan{border-radius:13px;box-shadow:0 2px 8px #09264a0d}
+  .pt{color:#09264a;font-weight:800}
+  .slist{grid-template-columns:1fr 1fr}
+  #bn{background:#071f40;border-top:2px solid #c91f2b;padding:5px 0 max(5px,env(safe-area-inset-bottom));box-shadow:0 -3px 12px #061a3520}
+  #bn button{font-size:.68rem;color:#d2dced}
+  #bn button.on{color:#f0cf7e}
+  #bn svg{width:21px;height:21px}
+}
+@media(max-width:380px){
+  header{gap:6px;padding-inline:8px}
+  header h1{font-size:1.3rem}
+  .ib{width:32px;height:32px}
+  .lp .card{grid-template-columns:96px minmax(0,1fr)}
+  .mt{font-size:.68rem}
+}
+
 </style></head><body>
 <nav id="bn"></nav><header><img src="logo.png" alt=""><h1 id="hTitle">مِرصد</h1>
 <button class="ib" aria-label="بحث" onclick="srch()"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg></button>
@@ -113,7 +160,7 @@ function load(){try{D=JSON.parse(localStorage.getItem('rm2')||'null')}catch(e){D
  D.saved=D.saved||[];D.drafts=D.drafts||[];D.seenC=D.seenC||{};D.first=D.first||now();
  SINCE=D.last||D.first;D.last=now();save();
  try{NEWS=JSON.parse(localStorage.getItem('rmNews')||'[]')}catch(e){NEWS=[]}
- try{TOK=localStorage.getItem('rmTok')||''}catch(e){}
+ try{TOK=sessionStorage.getItem('rmTok')||'';localStorage.removeItem('rmTok')}catch(e){}
  try{X=JSON.parse(localStorage.getItem('rmX')||'null')||X}catch(e){}
  pushTopics()}
 function save(){try{localStorage.setItem('rm2',JSON.stringify(D))}catch(e){toast('المساحة ممتلئة')}}
@@ -175,7 +222,7 @@ function fav(id){const i=D.saved.indexOf(id);i<0?D.saved.push(id):D.saved.splice
 /* ===== الإدارة (بمفتاح GitHub) ===== */
 async function gh(m,path,body,tok){return fetch(API+path+(m==='GET'?'?ref='+BR+'&t='+Date.now():''),{method:m,headers:{Authorization:'Bearer '+(tok||TOK),Accept:'application/vnd.github+json'},body:body?JSON.stringify(body):undefined,cache:'no-store'})}
 function adm(){if(S.admin){S.admin=0;render()}else if(TOK){S.admin=1;S.tab='dash';render()}else sheet(`<div class="box"><h3>دخول الإدارة</h3><small>الدخول بمفتاح GitHub الخاص بك. بيتخزّن على الجهاز ده بس.<br>أنشئ مفتاح من <a href="https://github.com/settings/personal-access-tokens/new" style="color:var(--blue)">هنا</a>: Only select repositories ← Mirsad ، و Contents: Read and write.</small><input id="lp" type="password" placeholder="الصق المفتاح هنا"><button class="pb" onclick="doLogin()">دخول</button><button class="ob" onclick="closeSheet()">إلغاء</button></div>`)}
-async function doLogin(){const t=$('#lp').value.trim();if(!t)return;try{const r=await gh('GET','data',null,t);if(r.status===401||r.status===403||r.status===404)return toast('المفتاح غير صحيح أو مالوش صلاحية على المستودع');TOK=t;try{localStorage.setItem('rmTok',t)}catch(e){}S.admin=1;S.tab='dash';closeSheet();render()}catch(e){toast('مفيش اتصال بالإنترنت')}}
+async function doLogin(){const t=$('#lp').value.trim();if(!t)return;try{const r=await gh('GET','data',null,t);if(r.status===401||r.status===403||r.status===404)return toast('المفتاح غير صحيح أو مالوش صلاحية على المستودع');TOK=t;try{sessionStorage.setItem('rmTok',t)}catch(e){}S.admin=1;S.tab='dash';closeSheet();render()}catch(e){toast('مفيش اتصال بالإنترنت')}}
 async function mutate(fn,msg){
  for(let i=0;i<3;i++){
   const r=await gh('GET',FILE);let db={news:[]},sha;
