@@ -35,6 +35,30 @@ public final class OfflineQueue extends SQLiteOpenHelper {
         return rows.toString();
     }
 
+    public synchronized String listPending() {
+        JSONArray rows = new JSONArray();
+        try (Cursor c = getReadableDatabase().rawQuery("SELECT id,kind,payload,created_at,state FROM outbox WHERE state='pending' ORDER BY created_at ASC LIMIT 50", null)) {
+            while (c.moveToNext()) {
+                JSONObject o = new JSONObject();
+                o.put("id", c.getString(0)); o.put("kind", c.getString(1));
+                o.put("payload", c.getString(2)); o.put("createdAt", c.getLong(3)); o.put("state", c.getString(4));
+                rows.put(o);
+            }
+        } catch (Exception ignored) { }
+        return rows.toString();
+    }
+
+    public synchronized void acknowledge(String id) {
+        if (id != null && !id.isEmpty()) getWritableDatabase().delete("outbox", "id=?", new String[]{id});
+    }
+
+    public synchronized void markState(String id, String state) {
+        if (id == null || id.isEmpty()) return;
+        android.content.ContentValues v = new android.content.ContentValues();
+        v.put("state", state);
+        getWritableDatabase().update("outbox", v, "id=?", new String[]{id});
+    }
+
     public synchronized int count() {
         try (Cursor c = getReadableDatabase().rawQuery("SELECT COUNT(*) FROM outbox", null)) {
             return c.moveToFirst() ? c.getInt(0) : 0;
