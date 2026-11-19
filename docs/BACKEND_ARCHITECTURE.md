@@ -6,7 +6,7 @@ Mirsad will use a free-tier-first, portable backend:
 - Neon Postgres: primary relational database.
 - Neon Managed Better Auth: authentication and session identity stored alongside the Postgres data.
 - Cloudflare Workers: server-side API and authorization boundary.
-- Cloudflare R2: news images and uploaded media.
+- Neon Object Storage: news images and uploaded media (5 GB free allowance per project).
 - Cloudflare Pages / Workers Static Assets: public website and application assets, selected after inspecting the existing frontend.
 
 Do not create a Supabase project or apply the legacy Supabase migration. Files in supabase/ are historical reference material only until replaced by provider-neutral SQL and API code.
@@ -24,7 +24,7 @@ Do not create a Supabase project or apply the legacy Supabase migration. Files i
 The provider's published limits can change. Planning baseline recorded on 2026-11-19:
 - Neon Free: up to 100 projects; 100 CU-hours per project per month; 1 GB Postgres storage per project; Managed Better Auth included up to 60,000 monthly active users.
 - Cloudflare Workers Free: 100,000 requests per day; 10 ms CPU time per invocation.
-- Cloudflare R2 Standard free allowance: 10 GB-month storage, 1 million Class A operations/month, 10 million Class B operations/month, and no egress charge.
+- Neon Object Storage Standard free allowance: 10 GB-month storage, 1 million Class A operations/month, 10 million Class B operations/month, and no egress charge.
 
 These are quotas, not unlimited capacity or a service-level guarantee. R2 usage above its free allowance can be billable if billing is enabled; do not enable billing or attach a payment method without explicit owner approval.
 
