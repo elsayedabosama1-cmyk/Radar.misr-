@@ -154,7 +154,7 @@ export default { async fetch(request,env) {
     const decisionMatch=path.match(/^\/api\/v1\/articles\/([0-9a-f-]+)\/decision$/i);
     if(decisionMatch&&request.method==="POST"){
       const p=await identity(request,env); requireLead(p); const b=await bodyJson(request);
-      return await db(env,async c=>json({article:await articleDecision(c,p,decisionMatch[1],b)},200,origin));
+      return await tx(env,async c=>json({article:await articleDecision(c,p,decisionMatch[1],b)},200,origin));
     }
     const roleMatch=path.match(/^\/api\/v1\/profiles\/([0-9a-f-]+)\/role$/i);
     if(roleMatch&&request.method==="PATCH"){
