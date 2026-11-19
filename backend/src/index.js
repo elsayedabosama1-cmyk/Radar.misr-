@@ -100,6 +100,42 @@ export default { async fetch(request,env) {
   const url=new URL(request.url), path=url.pathname;
   try {
     if(path==="/health"&&request.method==="GET") return json({ok:true,service:"mirsad-api",database:"not_checked"},200,origin);
+    if(path==="/api/v1/sync"&&request.method==="POST"){
+      const p=await identity(request,env); requireStaff(p);
+      const b=await bodyJson(request), ops=Array.isArray(b.operations)?b.operations:[];
+      if(!ops.length||ops.length>50) throw fail("أرسل من 1 إلى 50 عملية في الدفعة الواحدة");
+      return await tx(env,async c=>{
+        const results=[];
+        for(const op of ops){
+          const operationId=safeText(op?.id,180), kind=safeText(op?.kind,60), data=op?.payload;
+          if(!operationId||!data||typeof data!=="object"){results.push({id:operationId||null,status:"rejected",reason:"invalid_operation"});continue;}
+          const prior=await c.query("select result from public.sync_receipts where actor_id=$1 and operation_id=$2",[p.id,operationId]);
+          if(prior.rows[0]){results.push({...prior.rows[0].result,id:operationId,replayed:true});continue;}
+          if(kind!=="draft.save"){results.push({id:operationId,status:"rejected",reason:"unsupported_operation"});continue;}
+          const externalKey=safeText(data.id,120), title=safeText(data.t,300), body=safeText(data.b,200000);
+          if(!externalKey||title.length<3||!body){results.push({id:operationId,status:"rejected",reason:"invalid_draft"});continue;}
+          if(typeof data.img==="string"&&data.img.startsWith("data:")){
+            results.push({id:operationId,status:"conflict",reason:"attachment_upload_required"});continue;
+          }
+          const values=[p.id,externalKey,title,body,safeText(data.cat,100)||null,safeText(data.gov,100)||null,safeText(data.src,200)||null,safeText(data.srcUrl,2000)||null,safeText(data.img,2000)||null];
+          const saved=await c.query(`insert into public.articles(author_id,external_key,title,body,section,governorate,source_name,source_url,image_url,status)
+            values($1,$2,$3,$4,$5,$6,$7,$8,$9,'draft')
+            on conflict(author_id,external_key) where external_key is not null
+            do update set title=excluded.title,body=excluded.body,section=excluded.section,governorate=excluded.governorate,
+              source_name=excluded.source_name,source_url=excluded.source_url,image_url=excluded.image_url,
+              version=public.articles.version+1,updated_at=now()
+            where public.articles.status in ('draft','changes_requested')
+            returning id,external_key,status,version,updated_at`,values);
+          if(!saved.rows[0]){results.push({id:operationId,status:"conflict",reason:"server_article_not_editable"});continue;}
+          const result={id:operationId,status:"acknowledged",article:saved.rows[0]};
+          await audit(c,p.id,"offline_draft_synced","article",saved.rows[0].id,null,saved.rows[0]);
+          await c.query("insert into public.sync_receipts(actor_id,operation_id,operation_kind,result) values($1,$2,$3,$4::jsonb)",
+            [p.id,operationId,kind,JSON.stringify(result)]);
+          results.push(result);
+        }
+        return json({results},200,origin);
+      });
+    }
     if(path==="/api/v1/articles"&&request.method==="GET"){
       const bearer=(request.headers.get("authorization")||"").startsWith("Bearer ");
       const p=bearer?await identity(request,env):null;
