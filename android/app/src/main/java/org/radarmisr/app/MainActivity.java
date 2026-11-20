@@ -49,6 +49,32 @@ public class MainActivity extends Activity {
             }
 
             @JavascriptInterface
+            public void saveImage(String b64, String name) {
+                try {
+                    byte[] data = android.util.Base64.decode(b64, android.util.Base64.DEFAULT);
+                    if (Build.VERSION.SDK_INT >= 29) {
+                        android.content.ContentValues v = new android.content.ContentValues();
+                        v.put(android.provider.MediaStore.Images.Media.DISPLAY_NAME, name);
+                        v.put(android.provider.MediaStore.Images.Media.MIME_TYPE, "image/jpeg");
+                        v.put(android.provider.MediaStore.Images.Media.RELATIVE_PATH, "Pictures/Mirsad");
+                        Uri u = getContentResolver().insert(android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI, v);
+                        java.io.OutputStream o = getContentResolver().openOutputStream(u);
+                        o.write(data);
+                        o.close();
+                    } else {
+                        java.io.File d = getExternalFilesDir(android.os.Environment.DIRECTORY_PICTURES);
+                        d.mkdirs();
+                        java.io.FileOutputStream o = new java.io.FileOutputStream(new java.io.File(d, name));
+                        o.write(data);
+                        o.close();
+                    }
+                    runOnUiThread(() -> android.widget.Toast.makeText(MainActivity.this, "تم الحفظ في المعرض", android.widget.Toast.LENGTH_SHORT).show());
+                } catch (Exception e) {
+                    runOnUiThread(() -> android.widget.Toast.makeText(MainActivity.this, "تعذّر حفظ الصورة", android.widget.Toast.LENGTH_SHORT).show());
+                }
+            }
+
+            @JavascriptInterface
             public void share(String t) {
                 Intent i = new Intent(Intent.ACTION_SEND);
                 i.setType("text/plain");
@@ -64,6 +90,7 @@ public class MainActivity extends Activity {
                 Intent i = new Intent(Intent.ACTION_GET_CONTENT);
                 i.addCategory(Intent.CATEGORY_OPENABLE);
                 i.setType("*/*");
+                if (p.getMode() == FileChooserParams.MODE_OPEN_MULTIPLE) i.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
                 java.util.ArrayList<String> mt = new java.util.ArrayList<>();
                 if (p.getAcceptTypes() != null) for (String t : p.getAcceptTypes()) if (t != null && t.contains("/")) mt.add(t);
                 if (!mt.isEmpty()) i.putExtra(Intent.EXTRA_MIME_TYPES, mt.toArray(new String[0]));
