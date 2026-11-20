@@ -359,7 +359,7 @@ async function importNow(){try{const r=await fetch(API.replace('/contents/','/ac
 /* ===== v3: العلامات، الصفحة الرئيسية، التحليل الفني، التحليلات ===== */
 const WEB='https://elsayedabosama1-cmyk.github.io/Radar.misr-/';
 const nrm=s=>String(s||'').replace(/[ً-ٟـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').toLowerCase();
-const BRSEED=['رادار مصر','عين مصر','راصد الشارع','بصمة تاتيه','By the Way','بتوقيت المحلة','كامب إعداد القائد الصغير','Akhbar El Nagaa'];
+const BRSEED=['رادار مصر','عين مصر','راصد الشارع','بصمة ثانية','By the Way','بتوقيت المحلة','كامب إعداد القائد الصغير','أخبار النجع'];
 const brOf=id=>(X.brands||[]).find(b=>b.id===id);
 const brAct=()=>(X.brands||[]).filter(b=>b.active!==false&&!b.archived);
 function homeCats(){const h=X.home||{},o=h.order||[],hid=h.hidden||[];return[...o.filter(c=>CATS.includes(c)),...CATS.filter(c=>!o.includes(c))].filter(c=>!hid.includes(c))}
