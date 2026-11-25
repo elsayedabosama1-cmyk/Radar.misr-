@@ -12,7 +12,7 @@
    - `GITHUB_TOKEN`: مفتاح GitHub (Contents: Read and write، و Actions: Read and write) على المستودع.
    - `JWT_SECRET`: أي كلام عشوائي طويل (40 حرف أو أكتر).
    - `BOOTSTRAP_KEY`: كلمة سر مؤقتة ليك لإنشاء أول حساب.
-   - (بعد تغيير اسم المستودع) متغير عادي `REPO` = `elsayedabosama1-cmyk/Mirsad`.
+   - (اختياري) متغير عادي `REPO` لو اسم المستودع غير `elsayedabosama1-cmyk/mirsad`.
 7. انسخ رابط الـ Worker (https://mirsad-api.xxxx.workers.dev).
 8. في التطبيق: أيقونة الإدارة ← الصق الرابط ← حفظ ← "إنشاء حساب رئيس المجلس" ← ادخل بالإيميل.
 9. من تبويب "المستخدمين" اعمل حسابات رئيس التحرير والمحررين.
