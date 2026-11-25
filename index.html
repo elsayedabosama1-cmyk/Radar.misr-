@@ -2,7 +2,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>مِرصد</title>
 <meta name="description" content="مِرصد — منصة إعلامية ذكية: أخبار محلية وعربية وعالمية، تحليل فني للأخبار، وتغطية متواصلة.">
-<meta property="og:title" content="مِرصد"><meta property="og:description" content="مِرصد .. عينك على الحقيقة"><meta property="og:image" content="https://elsayedabosama1-cmyk.github.io/Radar.misr-/icon-512.png"><meta property="og:type" content="website">
+<meta property="og:title" content="مِرصد"><meta property="og:description" content="مِرصد .. عينك على الحقيقة"><meta property="og:image" content="https://elsayedabosama1-cmyk.github.io/mirsad/icon-512.png"><meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;700&family=Inter:wght@500;700&family=Lalezar&display=swap" rel="stylesheet">
 <link rel="manifest" href="manifest.json"><meta name="theme-color" content="#111E31"><link rel="apple-touch-icon" href="icon-192.png">
 <style>
@@ -136,7 +136,7 @@ const pagesL=()=>[...new Set([...(X.brands||[]).filter(b=>!b.archived&&b.active!
 const STL={published:'منشور',draft:'مسودة',pending:'بانتظار الاعتماد',scheduled:'مجدول',archived:'مؤرشف',review:'قيد المراجعة',returned:'معاد للتعديل',rejected:'مرفوض'};
 const $=s=>document.querySelector(s),now=()=>Date.now();
 const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const REPO='elsayedabosama1-cmyk/Radar.misr-',BR='main',FILE='data/news.json',RAW='https://raw.githubusercontent.com/'+REPO+'/'+BR+'/',API='https://api.github.com/repos/'+REPO+'/contents/';
+const REPO='elsayedabosama1-cmyk/mirsad',BR='main',FILE='data/news.json',RAW='https://raw.githubusercontent.com/'+REPO+'/'+BR+'/',API='https://api.github.com/repos/'+REPO+'/contents/';
 let D,NEWS=[],X={texts:{},folders:[],pages:[],plan:[],home:{},brands:[],market:[]},S={view:'home',fpath:[],afp:[],cat:'الكل',gov:'',q:'',admin:0,tab:'list',edit:null,img:''},tki=0,TOK='',WK='',JWT='',USR=null,SINCE=0,VC=-1;
 const enc=s=>btoa(unescape(encodeURIComponent(s))),dec=b=>decodeURIComponent(escape(atob(b.replace(/\s/g,''))));
 const IC={bell:'<path d="M18 16v-5a6 6 0 0 0-12 0v5l-2 2h16z"/><path d="M10 21h4"/>',user:'<circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/>',coin:'<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9.5 9.5h4a1.5 1.5 0 0 1 0 3h-3a1.5 1.5 0 0 0 0 3h4"/>',news:'<path d="M4 5h13v14H6a2 2 0 0 1-2-2z"/><path d="M17 8h3v9a2 2 0 0 1-2 2"/><path d="M7 9h7M7 13h7"/>',bolt:'<path d="M13 2L4 14h7l-1 8 9-12h-7z"/>',pin:'<path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/>',egypt:'<path d="M12 4L3 20h18z"/><path d="M12 4v16"/>',gov:'<path d="M3 9l9-5 9 5"/><path d="M5 10v8M9 10v8M15 10v8M19 10v8M3 20h18"/>',globe:'<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/>',chart:'<path d="M5 20V10M11 20V4M17 20v-7M3 20h18"/>',warn:'<path d="M12 3L2 20h20z"/><path d="M12 10v5M12 17.5v.5"/>',cap:'<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11v5c0 1.5 3 3 6 3s6-1.5 6-3v-5"/>',ball:'<circle cx="12" cy="12" r="9"/><path d="M12 3v18M3 12h18M5.5 5.5c4 3 9 3 13 0M5.5 18.5c4-3 9-3 13 0"/>',chip:'<path d="M3 5h18v11H3z"/><path d="M8 20h8M12 16v4"/>',art:'<path d="M12 3a9 9 0 1 0 0 18c1.5 0 2-1 1.5-2s0-2 1.5-2h2a3 3 0 0 0 3-3 9 9 0 0 0-8-11z"/><circle cx="8" cy="11" r="1"/><circle cx="12" cy="7.5" r="1"/><circle cx="16" cy="11" r="1"/>',search:'<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',video:'<path d="M3 5h18v14H3z"/><path d="M10 9l5 3-5 3z"/>',bookmark:'<path d="M6 3h12v18l-6-4-6 4z"/>',folder:'<path d="M3 6h6l2 2h10v11H3z"/>',file:'<path d="M6 3h9l4 4v14H6z"/><path d="M14 3v5h5"/>'};
@@ -407,7 +407,7 @@ function srcTog(id){srcSave(x=>{const e=x.sources.find(y=>y.id===id);if(e)e.acti
 function srcDel(id){if(confirm('حذف المصدر؟'))srcSave(x=>{x.sources=x.sources.filter(y=>y.id!==id)},'Delete source')}
 async function importNow(){try{const r=WK&&JWT?await fetch(WK+'/gh/actions/import',{method:'POST',headers:{Authorization:'Bearer '+JWT,'Content-Type':'application/json'},body:'{}'}):await fetch(API.replace('/contents/','/actions/workflows/import-news.yml/dispatches'),{method:'POST',headers:{Authorization:'Bearer '+TOK,Accept:'application/vnd.github+json'},body:JSON.stringify({ref:BR})});toast(r.status===204?'بدأ الاستيراد، حدّث الصفحة بعد دقيقة':'محتاج صلاحية Actions: Read and write في المفتاح')}catch(e){toast('مفيش اتصال')}}
 /* ===== v3: العلامات، الصفحة الرئيسية، التحليل الفني، التحليلات ===== */
-const WEB='https://elsayedabosama1-cmyk.github.io/Radar.misr-/';
+const WEB='https://elsayedabosama1-cmyk.github.io/mirsad/';
 const nrm=s=>String(s||'').replace(/[ً-ٟـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').toLowerCase();
 const BRSEED=['مرصد','عين مصر','راصد الشارع','بصمة ثانية','By the Way','بتوقيت المحلة','كامب إعداد القائد الصغير','أخبار النجع'];
 const imgsOf=n=>n.imgs&&n.imgs.length?n.imgs:(n.img?[n.img]:[]);

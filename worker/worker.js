@@ -1,6 +1,6 @@
 // مِرصد – وسيط الدخول والصلاحيات (Cloudflare Worker)
 // يخزّن الحسابات في KV (الربط: USERS)، ويكتب في GitHub بالسر GITHUB_TOKEN بدل ما التطبيق يشيل أي مفتاح.
-const REPO_DEFAULT = 'elsayedabosama1-cmyk/Radar.misr-', BR_DEFAULT = 'main';
+const REPO_DEFAULT = 'elsayedabosama1-cmyk/mirsad', BR_DEFAULT = 'main';
 const ROLES = { chairman: 'رئيس مجلس الإدارة', editor_in_chief: 'رئيس التحرير', editor: 'محرر / صحفي', reporter: 'مراسل' };
 const SENIOR = ['chairman', 'editor_in_chief'];
 const te = new TextEncoder(), td = new TextDecoder();

@@ -19,7 +19,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 public class CheckWorker extends Worker {
-    static final String URL_DATA = "https://raw.githubusercontent.com/elsayedabosama1-cmyk/Radar.misr-/main/data/news.json";
+    static final String URL_DATA = "https://raw.githubusercontent.com/elsayedabosama1-cmyk/mirsad/main/data/news.json";
     static final String CH = "news";
 
     public CheckWorker(@NonNull Context c, @NonNull WorkerParameters p) { super(c, p); }
