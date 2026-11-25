@@ -53,3 +53,6 @@ jobs:
       - name: Check Worker JavaScript syntax
         working-directory: backend
         run: npm run check
+      - name: Run Worker boundary tests
+        working-directory: backend
+        run: npm test
