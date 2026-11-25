@@ -1,0 +1,17 @@
+# Android build outputs
+.gradle/
+**/build/
+local.properties
+
+# Signing material and private keys
+*.keystore
+*.jks
+*.p12
+*.pem
+*.key
+
+# Local environment and secrets
+.env
+.env.*
+!.env.example
+secrets/
