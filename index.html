@@ -104,6 +104,7 @@ body.dark #tk{background:#2a1520;color:#fff}#tk b{background:var(--red);color:#f
 .bx{background:var(--card);border-radius:12px;overflow:hidden;border:1px solid var(--ln);box-shadow:0 2px 8px #0e214714}
 .bh{display:flex;align-items:center;justify-content:space-between;padding:9px 12px;color:#fff;font-weight:800}.bh.nv{background:var(--navy)}.bh.rd{background:var(--red)}
 .lrow2{display:flex;gap:8px;align-items:center;padding:8px 10px;border-bottom:1px solid var(--ln);cursor:pointer}.lrow2 b{flex:1;font-size:.88rem;line-height:1.5}.lrow2 small{display:block;color:var(--red);font-weight:700}.lrow2 img,.lrow2 .nth{width:64px;height:48px;border-radius:6px;object-fit:cover;background:#cbd8ee;flex:none}
+.cblocks{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;margin:10px 0}.cblocks .more{color:#fff;font-size:.75rem;opacity:.85;cursor:pointer;margin-inline-start:auto}.cblocks .bh{display:flex;align-items:center}
 .lrow2 .no{width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font:700 12px/22px sans-serif;text-align:center;font-style:normal;flex:none}
 .lt{flex-direction:row}.lt>div{flex:1}
 .vcard{height:150px;background:#10294f center/cover;position:relative;margin:8px;border-radius:10px;overflow:hidden;cursor:pointer;display:flex;align-items:flex-end}.vcard b{color:#fff;padding:8px;background:linear-gradient(transparent,#000a);width:100%;font-size:.85rem}.play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:48px;height:48px;border-radius:50%;border:3px solid #fff;background:#0006}.play:after{content:"";position:absolute;top:12px;left:17px;border:9px solid transparent;border-left:14px solid #fff;border-right:0}
@@ -203,11 +204,12 @@ function latP(){const l=pub().slice(0,5);return`<section class="bx" style="grid-
 function vidP(){const v=pub().find(n=>n.vid||n.cat==='فيديوهات');
  return`<section class="bx" style="grid-area:vid">${boxH('nv','فيديو مرصد','<svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><rect x="2" y="5" width="20" height="14" rx="4" fill="#fff"/><path d="M10 9l5 3-5 3z" fill="#0e2147"/></svg>')}${v?`<div class="vcard" onclick="openN('${v.id}')" style="${v.img?`background-image:url(${imgU(v.img)})`:''}"><i class="play"></i><b>${esc(v.t)}</b></div><a class="more" onclick="openCat('فيديوهات')">المزيد من الفيديوهات ←</a>`:'<p class="empty">الفيديوهات هتظهر هنا.</p>'}</section>`}
 function welP(){return`<section class="bx wel" style="grid-area:wel"><h3>مرحبًا بكم في مرصد</h3><p>${esc(lbl('welc'))}</p><b>معًا .. نرصد الحقيقة</b></section>`}
+function catBlocks(){const p=pub();return`<div class="cblocks">${homeCats().filter(c=>c!=='عاجل').map(c=>[c,p.filter(n=>n.cat===c).slice(0,4)]).filter(x=>x[1].length).slice(0,10).map(([c,l])=>`<section class="bx">${boxH('nv',lbl('c:'+c),`<a class="more" onclick="openCat('${c}')">المزيد</a>`)}<div class="mr">${l.map(n=>`<div class="lrow2 lt" onclick="openN('${n.id}')"><div><b>${esc(n.t)}</b><small>${ago(n.at)}</small></div>${th(n)}</div>`).join('')}</div></section>`).join('')}</div>`}
 function stripP(){return`<div class="cstrip" style="grid-area:strip">${navList().slice(0,5).map(c=>`<button onclick="openCat('${c}')">${icon(CI[c]||'news')}<span>${esc(lbl('c:'+c))}</span></button>`).join('')}</div>`}
 function socF(){const k=[['fb','#1877f2','f'],['yt','#e00','▶'],['xx','#000','X'],['wa','#25d366','W']].filter(x=>lbl(x[0]));return`<footer class="sfoot"><span>© ${new Date().getFullYear()} مرصد .. جميع الحقوق محفوظة</span><span class="soc">${k.map(x=>`<a href="${esc(lbl(x[0]))}" target="_blank" rel="noopener" style="background:${x[1]}">${x[2]}</a>`).join('')}</span></footer>`}
 function renderHome(){
  if(S.view==='cat')return renderCat();if(S.view==='fol')return renderFol();
- $('#v').innerHTML=`<div class="pg">${heroP()}${latP()}${vidP()}${stripP()}${mostP()}${secL()}${welP()}</div>${brandStrip()}${(X.market||[]).length?marketStrip():''}${socF()}`;
+ $('#v').innerHTML=`<div class="pg">${heroP()}${latP()}${vidP()}${stripP()}${mostP()}${secL()}${welP()}</div>${catBlocks()}${brandStrip()}${(X.market||[]).length?marketStrip():''}${socF()}`;
  if(heroSlides().length){paintHero();resetHT()}else clearInterval(HT)}
 function renderCat(){
  let l=pub();if(S.cat==='محفوظ')l=l.filter(n=>D.saved.includes(n.id));else if(S.cat!=='الكل')l=l.filter(n=>n.cat===S.cat);
