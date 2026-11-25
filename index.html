@@ -409,7 +409,7 @@ async function importNow(){try{const r=WK&&JWT?await fetch(WK+'/gh/actions/impor
 /* ===== v3: العلامات، الصفحة الرئيسية، التحليل الفني، التحليلات ===== */
 const WEB='https://elsayedabosama1-cmyk.github.io/Radar.misr-/';
 const nrm=s=>String(s||'').replace(/[ً-ٟـ]/g,'').replace(/[أإآٱ]/g,'ا').replace(/ى/g,'ي').replace(/ة/g,'ه').toLowerCase();
-const BRSEED=['رادار مصر','عين مصر','راصد الشارع','بصمة ثانية','By the Way','بتوقيت المحلة','كامب إعداد القائد الصغير','أخبار النجع'];
+const BRSEED=['مرصد','عين مصر','راصد الشارع','بصمة ثانية','By the Way','بتوقيت المحلة','كامب إعداد القائد الصغير','أخبار النجع'];
 const imgsOf=n=>n.imgs&&n.imgs.length?n.imgs:(n.img?[n.img]:[]);
 const wb=n=>{const b=n.brand&&brOf(n.brand);return b&&b.logo?`<i class="wb" style="background-image:url(${imgU(b.logo)})"></i>`:''};
 const brOf=id=>(X.brands||[]).find(b=>b.id===id);
