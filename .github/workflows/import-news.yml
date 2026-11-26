@@ -5,17 +5,26 @@ on:
   workflow_dispatch:
 permissions:
   contents: write
+concurrency:
+  group: import-news
+  cancel-in-progress: false
 jobs:
   import:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - run: python3 scripts/import_rss.py
-      - name: Commit inbox
+      - name: Import, generate pages, commit
         run: |
-          git config user.name "github-actions"
-          git config user.email "actions@users.noreply.github.com"
-          git add data/inbox.json
-          if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
-          git commit -m "Import news into review queue"
-          for i in 1 2 3; do git pull --rebase origin main && git push && break || sleep 5; done
+          git config user.name "mirsad-bot"
+          git config user.email "mirsad-bot@users.noreply.github.com"
+          for i in 1 2 3 4; do
+            git fetch -q origin main && git reset -q --hard origin/main
+            python3 scripts/import_rss.py
+            python3 scripts/gen_pages.py
+            git add data n sitemap.xml robots.txt
+            if git diff --cached --quiet; then echo "nothing new"; exit 0; fi
+            git commit -q -m "Import news [skip ci]"
+            git push -q origin HEAD:main && exit 0
+            sleep 5
+          done
+          exit 1

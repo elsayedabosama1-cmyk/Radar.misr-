@@ -1,1 +1,301 @@
-{"sources":[]}
+{
+ "sources": [
+  {
+   "id": "s01",
+   "name": "BBC عربي",
+   "url": "https://feeds.bbci.co.uk/arabic/rss.xml",
+   "cat": "أخبار عالمية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s02",
+   "name": "DW عربية",
+   "url": "https://rss.dw.com/xml/rss-ar-all",
+   "cat": "أخبار عالمية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s03",
+   "name": "فرانس 24",
+   "url": "https://www.france24.com/ar/rss",
+   "cat": "أخبار عالمية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s04",
+   "name": "أخبار الأمم المتحدة",
+   "url": "https://news.un.org/feed/subscribe/ar/news/all/rss.xml",
+   "cat": "أخبار عالمية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s05",
+   "name": "يورونيوز عربي",
+   "url": "https://arabic.euronews.com/rss?format=mrss",
+   "cat": "أخبار عالمية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s06",
+   "name": "جوجل نيوز: عالمي",
+   "url": "https://news.google.com/rss/headlines/section/topic/WORLD?hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "أخبار عالمية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s07",
+   "name": "الشرق الأوسط",
+   "url": "https://aawsat.com/feed",
+   "cat": "أخبار عربية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s08",
+   "name": "العربية",
+   "url": "https://www.alarabiya.net/feed/rss2/ar.xml",
+   "cat": "أخبار عربية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s09",
+   "name": "سكاي نيوز عربية",
+   "url": "https://www.skynewsarabia.com/web/rss",
+   "cat": "أخبار عربية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s10",
+   "name": "الجزيرة نت",
+   "url": "https://www.aljazeera.net/aljazeerarss/a7c186be-1baa-4bd4-9d80-a84db769f779/73d0e1b4-532f-45ef-b135-bfdff8b8cab9",
+   "cat": "أخبار عربية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s11",
+   "name": "جوجل نيوز: عربي",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D8%B4%D8%B1%D9%82%20%D8%A7%D9%84%D8%A3%D9%88%D8%B3%D8%B7%20%D8%A7%D9%84%D8%AF%D9%88%D9%84%20%D8%A7%D9%84%D8%B9%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%A3%D8%AE%D8%A8%D8%A7%D8%B1%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "أخبار عربية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s12",
+   "name": "المصري اليوم",
+   "url": "https://www.almasryalyoum.com/rss/rssfeeds",
+   "cat": "أخبار مصر",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s13",
+   "name": "الشروق",
+   "url": "https://www.shorouknews.com/rss/",
+   "cat": "أخبار مصر",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s14",
+   "name": "بوابة الأهرام",
+   "url": "https://gate.ahram.org.eg/rss/",
+   "cat": "أخبار مصر",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s15",
+   "name": "مصراوي",
+   "url": "https://www.masrawy.com/rss/feed",
+   "cat": "أخبار مصر",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s16",
+   "name": "الوطن",
+   "url": "https://www.elwatannews.com/home/rssfeed",
+   "cat": "أخبار مصر",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s17",
+   "name": "الدستور",
+   "url": "https://www.dostor.org/rss",
+   "cat": "أخبار مصر",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s18",
+   "name": "اليوم السابع (جوجل نيوز)",
+   "url": "https://news.google.com/rss/search?q=site%3Ayoum7.com%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "أخبار مصر",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s19",
+   "name": "جوجل نيوز: مصر",
+   "url": "https://news.google.com/rss/search?q=%D9%85%D8%B5%D8%B1%20when%3A6h&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "أخبار مصر",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s20",
+   "name": "يلاكورة",
+   "url": "https://www.yallakora.com/rss",
+   "cat": "رياضة",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s21",
+   "name": "في الجول",
+   "url": "https://www.filgoal.com/rss",
+   "cat": "رياضة",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s22",
+   "name": "جوجل نيوز: رياضة",
+   "url": "https://news.google.com/rss/headlines/section/topic/SPORTS?hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "رياضة",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s23",
+   "name": "جوجل نيوز: الدوري المصري",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D8%AF%D9%88%D8%B1%D9%8A%20%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A%20%D8%A7%D9%84%D8%A3%D9%87%D9%84%D9%8A%20%D8%A7%D9%84%D8%B2%D9%85%D8%A7%D9%84%D9%83%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "رياضة",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s24",
+   "name": "الشرق للأعمال",
+   "url": "https://asharqbusiness.com/rss.xml",
+   "cat": "اقتصاد وأعمال",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s25",
+   "name": "المال",
+   "url": "https://www.almalnews.com/rss",
+   "cat": "اقتصاد وأعمال",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s26",
+   "name": "البورصة نيوز",
+   "url": "https://alborsaanews.com/rss",
+   "cat": "اقتصاد وأعمال",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s27",
+   "name": "جوجل نيوز: اقتصاد",
+   "url": "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "اقتصاد وأعمال",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s28",
+   "name": "جوجل نيوز: البورصة المصرية",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D8%A8%D9%88%D8%B1%D8%B5%D8%A9%20%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A%D8%A9%20%D8%A5%D9%8A%D8%AC%D9%8A%20%D8%A5%D9%83%D8%B3%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "اقتصاد وأعمال",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s29",
+   "name": "جوجل نيوز: أسعار الذهب",
+   "url": "https://news.google.com/rss/search?q=%D8%B3%D8%B9%D8%B1%20%D8%A7%D9%84%D8%B0%D9%87%D8%A8%20%D8%A7%D9%84%D9%8A%D9%88%D9%85%20%D9%85%D8%B5%D8%B1%20%D8%B9%D9%8A%D8%A7%D8%B1%2021%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "أسعار الذهب",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s30",
+   "name": "جوجل نيوز: الدولار والعملات",
+   "url": "https://news.google.com/rss/search?q=%D8%B3%D8%B9%D8%B1%20%D8%A7%D9%84%D8%AF%D9%88%D9%84%D8%A7%D8%B1%20%D8%A7%D9%84%D9%8A%D9%88%D9%85%20%D9%81%D9%8A%20%D9%85%D8%B5%D8%B1%20%D8%A7%D9%84%D8%A8%D9%86%D9%83%20%D8%A7%D9%84%D9%85%D8%B1%D9%83%D8%B2%D9%8A%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "أسعار الذهب",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s31",
+   "name": "تايمز أوف إسرائيل بالعربية",
+   "url": "https://ar.timesofisrael.com/feed/",
+   "cat": "شؤون إسرائيلية",
+   "mode": "review",
+   "active": true,
+   "max": 20
+  },
+  {
+   "id": "s32",
+   "name": "i24NEWS العربية",
+   "url": "https://www.i24news.tv/ar/rss",
+   "cat": "شؤون إسرائيلية",
+   "mode": "review",
+   "active": true,
+   "max": 20
+  },
+  {
+   "id": "s33",
+   "name": "جوجل نيوز: الشأن الإسرائيلي",
+   "url": "https://news.google.com/rss/search?q=%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%20%D8%A7%D9%84%D8%B5%D8%AD%D8%A7%D9%81%D8%A9%20%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "شؤون إسرائيلية",
+   "mode": "review",
+   "active": true,
+   "max": 20
+  }
+ ]
+}
