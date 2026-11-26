@@ -1,3 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /data/inbox.json
+Sitemap: https://elsayedabosama1-cmyk.github.io/mirsad/sitemap.xml

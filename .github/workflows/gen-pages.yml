@@ -1,0 +1,26 @@
+name: Generate article pages
+on:
+  push:
+    branches: [main]
+    paths: ['data/news.json', 'scripts/gen_pages.py']
+  workflow_dispatch:
+permissions:
+  contents: write
+concurrency:
+  group: gen-pages
+  cancel-in-progress: true
+jobs:
+  gen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: python3 scripts/gen_pages.py
+      - name: Commit generated pages
+        run: |
+          git config user.name "mirsad-bot"
+          git config user.email "mirsad-bot@users.noreply.github.com"
+          git add n sitemap.xml robots.txt
+          git diff --cached --quiet && exit 0
+          git commit -m "Generate article pages [skip ci]"
+          git pull --rebase origin main
+          git push
