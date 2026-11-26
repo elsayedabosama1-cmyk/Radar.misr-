@@ -103,7 +103,7 @@ for s in sources:
     lim = int(s.get('max', 3 if auto else 20))
     n = 0
     for title, link, desc, at, img, srcname in entries(root):
-        title = clean(title, 300)
+        title = re.sub(r'\s*#\S+', '', clean(title, 300)).strip()
         if not title or n >= lim:
             continue
         if 'news.google.com' not in s.get('url', ''):
