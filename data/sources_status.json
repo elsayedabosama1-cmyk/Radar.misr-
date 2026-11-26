@@ -1,7 +1,7 @@
 {
- "at": 1795724725046,
- "published": 45,
- "queued": 20,
+ "at": 1795724797597,
+ "published": 83,
+ "queued": 39,
  "sources": [
   {
    "id": "s01",
@@ -47,10 +47,9 @@
   },
   {
    "id": "s08",
-   "name": "العربية",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 403: Forbidden"
+   "name": "العربية (جوجل نيوز)",
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s09",
@@ -78,17 +77,15 @@
   },
   {
    "id": "s13",
-   "name": "الشروق",
-   "ok": false,
-   "new": 0,
-   "err": "not well-formed (invalid token): line 8, column 18"
+   "name": "الشروق (جوجل نيوز)",
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s14",
-   "name": "بوابة الأهرام",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 403: Forbidden"
+   "name": "بوابة الأهرام (جوجل نيوز)",
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s15",
@@ -98,17 +95,15 @@
   },
   {
    "id": "s16",
-   "name": "الوطن",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 404: Not Found"
+   "name": "الوطن (جوجل نيوز)",
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s17",
-   "name": "الدستور",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 403: Forbidden"
+   "name": "الدستور (جوجل نيوز)",
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s18",
@@ -124,17 +119,15 @@
   },
   {
    "id": "s20",
-   "name": "يلاكورة",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 404: Not Found"
+   "name": "يلاكورة (جوجل نيوز)",
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s21",
-   "name": "في الجول",
-   "ok": false,
-   "new": 0,
-   "err": "syntax error: line 1, column 0"
+   "name": "في الجول (جوجل نيوز)",
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s22",
@@ -150,17 +143,15 @@
   },
   {
    "id": "s24",
-   "name": "الشرق للأعمال",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 403: Forbidden"
+   "name": "الشرق للأعمال (جوجل نيوز)",
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s25",
-   "name": "المال",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 404: Not Found"
+   "name": "المال (جوجل نيوز)",
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s26",
@@ -172,39 +163,37 @@
    "id": "s27",
    "name": "جوجل نيوز: اقتصاد",
    "ok": true,
-   "new": 1
+   "new": 3
   },
   {
    "id": "s28",
    "name": "جوجل نيوز: البورصة المصرية",
    "ok": true,
-   "new": 0
+   "new": 3
   },
   {
    "id": "s29",
    "name": "جوجل نيوز: أسعار الذهب",
    "ok": true,
-   "new": 0
+   "new": 3
   },
   {
    "id": "s30",
    "name": "جوجل نيوز: الدولار والعملات",
    "ok": true,
-   "new": 0
+   "new": 3
   },
   {
    "id": "s31",
-   "name": "تايمز أوف إسرائيل بالعربية",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 403: Forbidden"
+   "name": "تايمز أوف إسرائيل بالعربية (جوجل نيوز)",
+   "ok": true,
+   "new": 0
   },
   {
    "id": "s32",
-   "name": "i24NEWS العربية",
-   "ok": false,
-   "new": 0,
-   "err": "not well-formed (invalid token): line 1, column 2150"
+   "name": "i24NEWS العربية (جوجل نيوز)",
+   "ok": true,
+   "new": 19
   },
   {
    "id": "s33",
