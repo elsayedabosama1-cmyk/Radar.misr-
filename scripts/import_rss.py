@@ -84,7 +84,7 @@ links = {n.get('srcUrl') for n in nlist if n.get('srcUrl')}
 norm = lambda t: re.sub(r'[^\w]+', '', t or '')[:60]
 titles = {norm(n.get('t')) for n in nlist}
 added = pub = 0
-CAP_AUTO = 45
+CAP_AUTO = 90
 status = []
 for s in sources:
     if not s.get('active', True) or not safe(s.get('url')) and not s.get('url', '').startswith('file://'):
@@ -106,6 +106,8 @@ for s in sources:
         title = clean(title, 300)
         if not title or n >= lim:
             continue
+        if 'news.google.com' not in s.get('url', ''):
+            srcname = ''
         if srcname and title.endswith(' - ' + srcname):
             title = title[:-len(srcname) - 3].strip()
         iid = hashlib.sha1((link or title).encode('utf-8')).hexdigest()[:12]
@@ -113,6 +115,8 @@ for s in sources:
         age = 12 * 3600000 if auto else 3 * 86400000
         if iid in have or (link and link in links) or norm(title) in titles or at < now - age or at > now + 3600000:
             continue
+        if 'news.google.com' not in s.get('url', ''):
+            srcname = ''
         sname = srcname or s.get('name', '')
         if auto:
             if pub >= CAP_AUTO:
