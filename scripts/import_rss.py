@@ -146,6 +146,41 @@ inbox['items'] = items[:300]
 if added:
     with open('data/inbox.json', 'w', encoding='utf-8') as f:
         json.dump(inbox, f, ensure_ascii=False, indent=1)
+def og_image(url):
+    try:
+        req = urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0 (compatible; MirsadBot/1.0)'})
+        page = urllib.request.urlopen(req, timeout=8).read(250000).decode('utf-8', 'ignore')
+    except Exception:
+        return ''
+    for pat in (r'<meta[^>]+property=["\']og:image(?::secure_url)?["\'][^>]+content=["\']([^"\']+)',
+                r'<meta[^>]+content=["\']([^"\']+)["\'][^>]+property=["\']og:image',
+                r'<meta[^>]+name=["\']twitter:image["\'][^>]+content=["\']([^"\']+)'):
+        m = re.search(pat, page, re.I)
+        if m:
+            u = html.unescape(m.group(1)).strip()
+            if u.startswith('//'):
+                u = 'https:' + u
+            if safe(u) and not re.search(r'logo|favicon|icon', u, re.I):
+                return u
+    return ''
+fetched = 0
+for n in nlist:
+    if fetched >= 25:
+        break
+    if n.get('auto') and not n.get('img') and n.get('srcUrl') and 'news.google.com' not in n['srcUrl'] and not n.get('imgTried'):
+        n['imgTried'] = 1
+        fetched += 1
+        u = og_image(n['srcUrl'])
+        if u:
+            n['img'] = u
+            n['imgs'] = [u]
+            pub += 0
+            filled = True
+if fetched:
+    NEWS['news'] = nlist
+    NEWS['version'] = NEWS.get('version', 0) + 1
+    with open('data/news.json', 'w', encoding='utf-8') as f:
+        json.dump(NEWS, f, ensure_ascii=False, separators=(',', ':'))
 # prune old auto items (never touch items edited by a person)
 before = len(nlist)
 nlist[:] = [n for n in nlist if not (n.get('auto') and n.get('by') == 'auto' and n.get('at', now) < now - 7 * 86400000)]
