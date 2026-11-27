@@ -3,7 +3,7 @@
 mode=review (default): items wait in data/inbox.json for approval.
 mode=auto: headline + short summary + source link + image URL are published to data/news.json
 (aggregator style, always crediting the source). Writes data/sources_status.json."""
-import json, hashlib, re, html, time, sys, urllib.request, urllib.error
+import json, hashlib, re, html, time, sys, gzip, urllib.request, urllib.error
 from xml.etree import ElementTree as ET
 from email.utils import parsedate_to_datetime
 from datetime import datetime
@@ -102,6 +102,8 @@ for s in sources:
                 raise
             time.sleep(15)
             data = urllib.request.urlopen(req, timeout=25).read()
+        if data[:2] == b'\x1f\x8b':
+            data = gzip.decompress(data)
         root = ET.fromstring(data)
         st['ok'] = True
     except Exception as e:
