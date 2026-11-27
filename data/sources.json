@@ -101,8 +101,8 @@
   },
   {
    "id": "s12",
-   "name": "المصري اليوم",
-   "url": "https://www.almasryalyoum.com/rss/rssfeeds",
+   "name": "المصري اليوم (جوجل نيوز)",
+   "url": "https://news.google.com/rss/search?q=site%3Aalmasryalyoum.com%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
    "cat": "أخبار مصر",
    "mode": "auto",
    "active": true,
@@ -128,8 +128,8 @@
   },
   {
    "id": "s15",
-   "name": "مصراوي",
-   "url": "https://www.masrawy.com/rss/feed",
+   "name": "مصراوي (جوجل نيوز)",
+   "url": "https://news.google.com/rss/search?q=site%3Amasrawy.com%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
    "cat": "أخبار مصر",
    "mode": "auto",
    "active": true,
@@ -273,34 +273,34 @@
   {
    "id": "s31",
    "name": "تايمز أوف إسرائيل بالعربية (جوجل نيوز)",
-   "url": "https://news.google.com/rss/search?q=site%3Aar.timesofisrael.com%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D8%A7%D9%8A%D9%85%D8%B2%20%D8%A3%D9%88%D9%81%20%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%22%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
    "cat": "شؤون إسرائيلية",
-   "mode": "review",
+   "mode": "auto",
    "active": true,
-   "max": 20
+   "max": 3
   },
   {
    "id": "s32",
    "name": "i24NEWS العربية (جوجل نيوز)",
    "url": "https://news.google.com/rss/search?q=site%3Ai24news.tv/ar%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
    "cat": "شؤون إسرائيلية",
-   "mode": "review",
+   "mode": "auto",
    "active": true,
-   "max": 20
+   "max": 3
   },
   {
    "id": "s33",
    "name": "جوجل نيوز: الشأن الإسرائيلي",
    "url": "https://news.google.com/rss/search?q=%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%20%D8%A7%D9%84%D8%B5%D8%AD%D8%A7%D9%81%D8%A9%20%D8%A7%D9%84%D8%A5%D8%B3%D8%B1%D8%A7%D8%A6%D9%8A%D9%84%D9%8A%D8%A9%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
    "cat": "شؤون إسرائيلية",
-   "mode": "review",
+   "mode": "auto",
    "active": true,
-   "max": 20
+   "max": 3
   },
   {
    "id": "s34",
    "name": "جوجل نيوز: صحة",
-   "url": "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=ar&gl=EG&ceid=EG:ar",
+   "url": "https://news.google.com/rss/search?q=%D8%B5%D8%AD%D8%A9%20%D9%88%D8%B2%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B5%D8%AD%D8%A9%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
    "cat": "صحة",
    "mode": "auto",
    "active": true,
@@ -428,6 +428,24 @@
    "name": "جوجل نيوز: تحقيقات وتقارير",
    "url": "https://news.google.com/rss/search?q=%D8%AA%D8%AD%D9%82%D9%8A%D9%82%20%D8%B5%D8%AD%D9%81%D9%8A%20%D8%AA%D9%82%D8%B1%D9%8A%D8%B1%20%D8%A7%D8%B3%D8%AA%D9%82%D8%B5%D8%A7%D8%A6%D9%8A%20%D9%85%D8%B5%D8%B1%20when%3A7d&hl=ar&gl=EG&ceid=EG:ar",
    "cat": "تحقيقات وتقارير",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s49",
+   "name": "جوجل نيوز: المحليات",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D9%85%D8%AD%D9%84%D9%8A%D8%A7%D8%AA%20%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A7%D8%AA%20%D9%85%D8%B5%D8%B1%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "المحليات",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s50",
+   "name": "جوجل نيوز: مؤشرات البورصة",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D8%A8%D9%88%D8%B1%D8%B5%D8%A9%20%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A%D8%A9%20%D9%85%D8%A4%D8%B4%D8%B1%D8%A7%D8%AA%20%D8%A3%D8%B3%D9%87%D9%85%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "البورصة",
    "mode": "auto",
    "active": true,
    "max": 3
