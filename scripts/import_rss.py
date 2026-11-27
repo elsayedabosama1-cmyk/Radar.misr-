@@ -3,7 +3,7 @@
 mode=review (default): items wait in data/inbox.json for approval.
 mode=auto: headline + short summary + source link + image URL are published to data/news.json
 (aggregator style, always crediting the source). Writes data/sources_status.json."""
-import json, hashlib, re, html, time, sys, urllib.request
+import json, hashlib, re, html, time, sys, urllib.request, urllib.error
 from xml.etree import ElementTree as ET
 from email.utils import parsedate_to_datetime
 from datetime import datetime
@@ -84,7 +84,7 @@ links = {n.get('srcUrl') for n in nlist if n.get('srcUrl')}
 norm = lambda t: re.sub(r'[^\w]+', '', t or '')[:60]
 titles = {norm(n.get('t')) for n in nlist}
 added = pub = 0
-CAP_AUTO = 90
+CAP_AUTO = 130
 status = []
 for s in sources:
     if not s.get('active', True) or not safe(s.get('url')) and not s.get('url', '').startswith('file://'):
@@ -92,7 +92,17 @@ for s in sources:
     st = {'id': s.get('id', ''), 'name': s.get('name', ''), 'ok': False, 'new': 0}
     try:
         req = urllib.request.Request(s['url'], headers={'User-Agent': 'Mozilla/5.0 (compatible; MirsadBot/1.0)'})
-        root = ET.fromstring(urllib.request.urlopen(req, timeout=25).read())
+        gnews = 'news.google.com' in s['url']
+        if gnews:
+            time.sleep(2)
+        try:
+            data = urllib.request.urlopen(req, timeout=25).read()
+        except urllib.error.HTTPError as he:
+            if he.code != 429:
+                raise
+            time.sleep(15)
+            data = urllib.request.urlopen(req, timeout=25).read()
+        root = ET.fromstring(data)
         st['ok'] = True
     except Exception as e:
         print('skip', s.get('name'), e)

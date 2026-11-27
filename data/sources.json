@@ -296,6 +296,141 @@
    "mode": "review",
    "active": true,
    "max": 20
+  },
+  {
+   "id": "s34",
+   "name": "جوجل نيوز: صحة",
+   "url": "https://news.google.com/rss/headlines/section/topic/HEALTH?hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "صحة",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s35",
+   "name": "جوجل نيوز: وزارة الصحة المصرية",
+   "url": "https://news.google.com/rss/search?q=%D9%88%D8%B2%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%B5%D8%AD%D8%A9%20%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A%D8%A9%20%D8%A7%D9%84%D9%85%D8%B3%D8%AA%D8%B4%D9%81%D9%8A%D8%A7%D8%AA%20when%3A2d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "صحة",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s36",
+   "name": "جوجل نيوز: تكنولوجيا",
+   "url": "https://news.google.com/rss/headlines/section/topic/TECHNOLOGY?hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "تكنولوجيا",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s37",
+   "name": "جوجل نيوز: تكنولوجيا مصر",
+   "url": "https://news.google.com/rss/search?q=%D8%AA%D9%83%D9%86%D9%88%D9%84%D9%88%D8%AC%D9%8A%D8%A7%20%D8%A7%D9%84%D8%A7%D8%AA%D8%B5%D8%A7%D9%84%D8%A7%D8%AA%20%D9%85%D8%B5%D8%B1%20%D8%A7%D9%84%D8%B0%D9%83%D8%A7%D8%A1%20%D8%A7%D9%84%D8%A7%D8%B5%D8%B7%D9%86%D8%A7%D8%B9%D9%8A%20when%3A2d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "تكنولوجيا",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s38",
+   "name": "جوجل نيوز: ثقافة وفن",
+   "url": "https://news.google.com/rss/headlines/section/topic/ENTERTAINMENT?hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "ثقافة وفن",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s39",
+   "name": "جوجل نيوز: الفن المصري",
+   "url": "https://news.google.com/rss/search?q=%D9%81%D9%86%20%D9%85%D8%B3%D9%84%D8%B3%D9%84%D8%A7%D8%AA%20%D8%A3%D9%81%D9%84%D8%A7%D9%85%20%D9%85%D8%B5%D8%B1%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "ثقافة وفن",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s40",
+   "name": "جوجل نيوز: علوم ومنوعات",
+   "url": "https://news.google.com/rss/headlines/section/topic/SCIENCE?hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "منوعات",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s41",
+   "name": "جوجل نيوز: تعليم",
+   "url": "https://news.google.com/rss/search?q=%D9%88%D8%B2%D8%A7%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AA%D8%B1%D8%A8%D9%8A%D8%A9%20%D9%88%D8%A7%D9%84%D8%AA%D8%B9%D9%84%D9%8A%D9%85%20%D8%A7%D9%84%D8%AB%D8%A7%D9%86%D9%88%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D8%A9%20%D8%A7%D9%84%D8%AC%D8%A7%D9%85%D8%B9%D8%A7%D8%AA%20when%3A2d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "تعليم",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s42",
+   "name": "جوجل نيوز: حوادث",
+   "url": "https://news.google.com/rss/search?q=%D8%AD%D8%A7%D8%AF%D8%AB%20%D9%85%D8%B5%D8%B1%20%D8%A7%D9%84%D8%AD%D9%85%D8%A7%D9%8A%D8%A9%20%D8%A7%D9%84%D9%85%D8%AF%D9%86%D9%8A%D8%A9%20%D8%A7%D9%84%D9%86%D9%8A%D8%A7%D8%A8%D8%A9%20%D8%A7%D9%84%D8%B9%D8%A7%D9%85%D8%A9%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "حوادث وقضايا",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s43",
+   "name": "جوجل نيوز: البرلمان المصري",
+   "url": "https://news.google.com/rss/search?q=%D9%85%D8%AC%D9%84%D8%B3%20%D8%A7%D9%84%D9%86%D9%88%D8%A7%D8%A8%20%D8%A7%D9%84%D8%A8%D8%B1%D9%84%D9%85%D8%A7%D9%86%20%D8%A7%D9%84%D9%85%D8%B5%D8%B1%D9%8A%20when%3A2d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "سياسة وبرلمان",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s44",
+   "name": "جوجل نيوز: محافظة الغربية",
+   "url": "https://news.google.com/rss/search?q=%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9%20%D8%A7%D9%84%D8%BA%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%B7%D9%86%D8%B7%D8%A7%20%D9%83%D9%81%D8%B1%20%D8%A7%D9%84%D8%B2%D9%8A%D8%A7%D8%AA%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "محافظة الغربية",
+   "mode": "auto",
+   "active": true,
+   "max": 4
+  },
+  {
+   "id": "s45",
+   "name": "جوجل نيوز: المحلة الكبرى",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D9%85%D8%AD%D9%84%D8%A9%20%D8%A7%D9%84%D9%83%D8%A8%D8%B1%D9%89%20when%3A7d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "المحلة الكبرى",
+   "mode": "auto",
+   "active": true,
+   "max": 4
+  },
+  {
+   "id": "s46",
+   "name": "جوجل نيوز: شؤون دولية",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D8%A3%D9%85%D9%85%20%D8%A7%D9%84%D9%85%D8%AA%D8%AD%D8%AF%D8%A9%20%D9%85%D8%AC%D9%84%D8%B3%20%D8%A7%D9%84%D8%A3%D9%85%D9%86%20%D8%A7%D9%84%D8%AF%D9%88%D9%84%D9%8A%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "شؤون دولية",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s47",
+   "name": "جوجل نيوز: مقالات رأي",
+   "url": "https://news.google.com/rss/search?q=%D9%85%D9%82%D8%A7%D9%84%20%D8%B1%D8%A3%D9%8A%20%D9%83%D8%A7%D8%AA%D8%A8%20%D9%85%D8%B5%D8%B1%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "مقالات",
+   "mode": "auto",
+   "active": true,
+   "max": 3
+  },
+  {
+   "id": "s48",
+   "name": "جوجل نيوز: تحقيقات وتقارير",
+   "url": "https://news.google.com/rss/search?q=%D8%AA%D8%AD%D9%82%D9%8A%D9%82%20%D8%B5%D8%AD%D9%81%D9%8A%20%D8%AA%D9%82%D8%B1%D9%8A%D8%B1%20%D8%A7%D8%B3%D8%AA%D9%82%D8%B5%D8%A7%D8%A6%D9%8A%20%D9%85%D8%B5%D8%B1%20when%3A7d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "تحقيقات وتقارير",
+   "mode": "auto",
+   "active": true,
+   "max": 3
   }
  ]
 }
