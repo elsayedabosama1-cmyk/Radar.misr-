@@ -391,7 +391,7 @@
    "id": "s44",
    "name": "جوجل نيوز: محافظة الغربية",
    "url": "https://news.google.com/rss/search?q=%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9%20%D8%A7%D9%84%D8%BA%D8%B1%D8%A8%D9%8A%D8%A9%20%D8%B7%D9%86%D8%B7%D8%A7%20%D9%83%D9%81%D8%B1%20%D8%A7%D9%84%D8%B2%D9%8A%D8%A7%D8%AA%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
-   "cat": "محافظة الغربية",
+   "cat": "محافظات",
    "mode": "auto",
    "active": true,
    "max": 4
@@ -400,7 +400,7 @@
    "id": "s45",
    "name": "جوجل نيوز: المحلة الكبرى",
    "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D9%85%D8%AD%D9%84%D8%A9%20%D8%A7%D9%84%D9%83%D8%A8%D8%B1%D9%89%20when%3A7d&hl=ar&gl=EG&ceid=EG:ar",
-   "cat": "المحلة الكبرى",
+   "cat": "محافظات",
    "mode": "auto",
    "active": true,
    "max": 4
@@ -430,13 +430,14 @@
    "cat": "تحقيقات وتقارير",
    "mode": "auto",
    "active": true,
-   "max": 3
+   "max": 3,
+   "ageH": 168
   },
   {
    "id": "s49",
    "name": "جوجل نيوز: المحليات",
    "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D9%85%D8%AD%D9%84%D9%8A%D8%A7%D8%AA%20%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A7%D8%AA%20%D9%85%D8%B5%D8%B1%20when%3A1d&hl=ar&gl=EG&ceid=EG:ar",
-   "cat": "المحليات",
+   "cat": "محافظات",
    "mode": "auto",
    "active": true,
    "max": 3
@@ -449,6 +450,206 @@
    "mode": "auto",
    "active": true,
    "max": 3
+  },
+  {
+   "id": "s51",
+   "name": "القاهرة الإخبارية (يوتيوب)",
+   "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCktyejXTxWaKfrgp1Oq7CMQ",
+   "cat": "ريل",
+   "mode": "auto",
+   "active": true,
+   "max": 2,
+   "video": true
+  },
+  {
+   "id": "s52",
+   "name": "إكسترا نيوز (يوتيوب)",
+   "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCGyS7uRX_tmdfAgf-4tsUlg",
+   "cat": "ريل",
+   "mode": "auto",
+   "active": true,
+   "max": 2,
+   "video": true
+  },
+  {
+   "id": "s53",
+   "name": "dmc (يوتيوب)",
+   "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCshyvSl2tWbBjPbgHX1mLMg",
+   "cat": "ريل",
+   "mode": "auto",
+   "active": true,
+   "max": 2,
+   "video": true
+  },
+  {
+   "id": "s54",
+   "name": "MBC مصر (يوتيوب)",
+   "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCnFKsbAof9fRv614I4wJX_w",
+   "cat": "ريل",
+   "mode": "auto",
+   "active": true,
+   "max": 2,
+   "video": true
+  },
+  {
+   "id": "s55",
+   "name": "سكاي نيوز عربية (يوتيوب)",
+   "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCIJXOvggjKtCagMfxvcCzAA",
+   "cat": "ريل",
+   "mode": "auto",
+   "active": true,
+   "max": 2,
+   "video": true
+  },
+  {
+   "id": "s56",
+   "name": "الجزيرة (يوتيوب)",
+   "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCfiwzLy-8yKzIbsmZTzxDgw",
+   "cat": "ريل",
+   "mode": "auto",
+   "active": true,
+   "max": 2,
+   "video": true
+  },
+  {
+   "id": "s57",
+   "name": "الشرق للأخبار (يوتيوب)",
+   "url": "https://www.youtube.com/feeds/videos.xml?channel_id=UCRJUVYt9gjg8MnlGacySUdg",
+   "cat": "ريل",
+   "mode": "auto",
+   "active": true,
+   "max": 2,
+   "video": true
+  },
+  {
+   "id": "s58",
+   "name": "جوجل نيوز: القاهرة الكبرى",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D9%82%D8%A7%D9%87%D8%B1%D8%A9%20%D8%A7%D9%84%D8%AC%D9%8A%D8%B2%D8%A9%20%D8%A7%D9%84%D9%82%D9%84%D9%8A%D9%88%D8%A8%D9%8A%D8%A9%20when%3A2d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "محافظات",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 48
+  },
+  {
+   "id": "s59",
+   "name": "جوجل نيوز: الإسكندرية والساحل",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D8%A5%D8%B3%D9%83%D9%86%D8%AF%D8%B1%D9%8A%D8%A9%20%D8%A7%D9%84%D8%A8%D8%AD%D9%8A%D8%B1%D8%A9%20%D9%85%D8%B7%D8%B1%D9%88%D8%AD%20%D8%AF%D9%85%D9%8A%D8%A7%D8%B7%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "محافظات",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 72
+  },
+  {
+   "id": "s60",
+   "name": "جوجل نيوز: الدلتا",
+   "url": "https://news.google.com/rss/search?q=%D8%A7%D9%84%D8%AF%D9%82%D9%87%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B4%D8%B1%D9%82%D9%8A%D8%A9%20%D8%A7%D9%84%D9%85%D9%86%D9%88%D9%81%D9%8A%D8%A9%20%D9%83%D9%81%D8%B1%20%D8%A7%D9%84%D8%B4%D9%8A%D8%AE%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "محافظات",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 72
+  },
+  {
+   "id": "s61",
+   "name": "جوجل نيوز: الصعيد",
+   "url": "https://news.google.com/rss/search?q=%D8%A3%D8%B3%D9%8A%D9%88%D8%B7%20%D8%B3%D9%88%D9%87%D8%A7%D8%AC%20%D8%A7%D9%84%D9%85%D9%86%D9%8A%D8%A7%20%D9%82%D9%86%D8%A7%20%D8%A7%D9%84%D8%A3%D9%82%D8%B5%D8%B1%20%D8%A3%D8%B3%D9%88%D8%A7%D9%86%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "محافظات",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 72
+  },
+  {
+   "id": "s62",
+   "name": "جوجل نيوز: القناة وسيناء",
+   "url": "https://news.google.com/rss/search?q=%D8%A8%D9%88%D8%B1%D8%B3%D8%B9%D9%8A%D8%AF%20%D8%A7%D9%84%D8%A5%D8%B3%D9%85%D8%A7%D8%B9%D9%8A%D9%84%D9%8A%D8%A9%20%D8%A7%D9%84%D8%B3%D9%88%D9%8A%D8%B3%20%D8%B3%D9%8A%D9%86%D8%A7%D8%A1%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "محافظات",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 72
+  },
+  {
+   "id": "s63",
+   "name": "جوجل نيوز: المحافظات",
+   "url": "https://news.google.com/rss/search?q=%D9%85%D8%AD%D8%A7%D9%81%D8%B8%20%D9%85%D8%AD%D8%A7%D9%81%D8%B8%D8%A9%20when%3A2d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "محافظات",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 48
+  },
+  {
+   "id": "s64",
+   "name": "أريج (صحافة استقصائية)",
+   "url": "https://arij.net/feed/",
+   "cat": "تحقيقات وتقارير",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 168
+  },
+  {
+   "id": "s65",
+   "name": "درج",
+   "url": "https://daraj.media/feed/",
+   "cat": "تحقيقات وتقارير",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 120
+  },
+  {
+   "id": "s66",
+   "name": "رصيف22",
+   "url": "https://raseef22.net/feed/",
+   "cat": "تحقيقات وتقارير",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 120
+  },
+  {
+   "id": "s67",
+   "name": "إنكفاضة",
+   "url": "https://inkyfada.com/ar/feed/",
+   "cat": "تحقيقات وتقارير",
+   "mode": "auto",
+   "active": true,
+   "max": 2,
+   "ageH": 168
+  },
+  {
+   "id": "s68",
+   "name": "حبر",
+   "url": "https://www.7iber.com/feed/",
+   "cat": "تحقيقات وتقارير",
+   "mode": "auto",
+   "active": true,
+   "max": 2,
+   "ageH": 120
+  },
+  {
+   "id": "s69",
+   "name": "مدى مصر (جوجل نيوز)",
+   "url": "https://news.google.com/rss/search?q=site%3Amadamasr.com%20when%3A7d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "تحقيقات وتقارير",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 168
+  },
+  {
+   "id": "s70",
+   "name": "جوجل نيوز: تقارير مصرية",
+   "url": "https://news.google.com/rss/search?q=%22%D8%AA%D9%82%D8%B1%D9%8A%D8%B1%22%20OR%20%22%D8%AA%D8%AD%D9%82%D9%8A%D9%82%22%20%D9%85%D8%B5%D8%B1%20when%3A3d&hl=ar&gl=EG&ceid=EG:ar",
+   "cat": "تحقيقات وتقارير",
+   "mode": "auto",
+   "active": true,
+   "max": 3,
+   "ageH": 72
   }
  ]
 }

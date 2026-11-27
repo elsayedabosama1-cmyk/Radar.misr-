@@ -45,10 +45,15 @@ def text(e, *names):
 
 MEDIA = '{http://search.yahoo.com/mrss/}'
 def img_of(it, desc):
-    for tag in ('content', 'thumbnail'):
+    for tag in ('thumbnail', 'content'):
         for m in it.iter(MEDIA + tag):
             u = safe(m.get('url'))
-            if u and (m.get('medium') in (None, 'image') or tag == 'thumbnail' or re.search(r'\.(jpe?g|png|webp)', u, re.I)):
+            if not u:
+                continue
+            if tag == 'thumbnail':
+                if m.get('medium') in (None, 'image') or re.search(r'\.(jpe?g|png|webp)', u, re.I):
+                    return u
+            elif m.get('medium') == 'image' or (m.get('type') or '').startswith('image') or re.search(r'\.(jpe?g|png|webp)', u, re.I):
                 return u
     for e in it.findall('enclosure'):
         if (e.get('type') or '').startswith('image'):
@@ -124,7 +129,7 @@ for s in sources:
             title = title[:-len(srcname) - 3].strip()
         iid = hashlib.sha1((link or title).encode('utf-8')).hexdigest()[:12]
         at = at or now
-        age = 12 * 3600000 if auto else 3 * 86400000
+        age = int(s.get('ageH', 12 if auto else 72)) * 3600000
         if iid in have or (link and link in links) or norm(title) in titles or at < now - age or at > now + 3600000:
             continue
         if 'news.google.com' not in s.get('url', ''):
@@ -138,7 +143,7 @@ for s in sources:
                 summ = ''
             body = (summ + '\n\n' if summ else '') + 'المصدر: ' + sname
             nlist.append({'id': 'a' + iid, 'h': [], 't': title, 'b': body, 'cat': s.get('cat') or 'أخبار مصر', 'src': sname,
-                          'au': '', 'gov': '', 'kw': '', 'vid': '', 'srcUrl': link, 'note': '', 'brand': '', 'an': None,
+                          'au': '', 'gov': '', 'kw': '', 'vid': link if s.get('video') else '', 'srcUrl': link, 'note': '', 'brand': '', 'an': None,
                           'img': img, 'imgs': [img] if img else [], 'st': 'published', 'by': 'auto', 'auto': 1, 'byE': '',
                           'rn': '', 'at': at, 'later': 0, 'fb': []})
             titles.add(norm(title))
@@ -205,3 +210,4 @@ if pub or len(nlist) != before:
 with open('data/sources_status.json', 'w', encoding='utf-8') as f:
     json.dump({'at': now, 'published': pub, 'queued': added, 'sources': status}, f, ensure_ascii=False, indent=1)
 print('auto-published', pub, 'queued', added)
+
