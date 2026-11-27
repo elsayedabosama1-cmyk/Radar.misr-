@@ -1,7 +1,7 @@
 {
- "at": 1795777324070,
- "published": 66,
- "queued": 30,
+ "at": 1795804949524,
+ "published": 119,
+ "queued": 40,
  "sources": [
   {
    "id": "s01",
@@ -24,8 +24,9 @@
   {
    "id": "s04",
    "name": "أخبار الأمم المتحدة",
-   "ok": true,
-   "new": 0
+   "ok": false,
+   "new": 0,
+   "err": "not well-formed (invalid token): line 1, column 0"
   },
   {
    "id": "s05",
@@ -36,9 +37,8 @@
   {
    "id": "s06",
    "name": "جوجل نيوز: عالمي",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 429: Too Many Requests"
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s07",
@@ -103,9 +103,8 @@
   {
    "id": "s17",
    "name": "الدستور (جوجل نيوز)",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 429: Too Many Requests"
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s18",
@@ -164,15 +163,14 @@
   {
    "id": "s27",
    "name": "جوجل نيوز: اقتصاد",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 429: Too Many Requests"
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s28",
    "name": "جوجل نيوز: البورصة المصرية",
    "ok": true,
-   "new": 0
+   "new": 3
   },
   {
    "id": "s29",
@@ -183,9 +181,8 @@
   {
    "id": "s30",
    "name": "جوجل نيوز: الدولار والعملات",
-   "ok": false,
-   "new": 0,
-   "err": "HTTP Error 429: Too Many Requests"
+   "ok": true,
+   "new": 3
   },
   {
    "id": "s31",
@@ -197,13 +194,103 @@
    "id": "s32",
    "name": "i24NEWS العربية (جوجل نيوز)",
    "ok": true,
-   "new": 10
+   "new": 20
   },
   {
    "id": "s33",
    "name": "جوجل نيوز: الشأن الإسرائيلي",
    "ok": true,
    "new": 20
+  },
+  {
+   "id": "s34",
+   "name": "جوجل نيوز: صحة",
+   "ok": true,
+   "new": 0
+  },
+  {
+   "id": "s35",
+   "name": "جوجل نيوز: وزارة الصحة المصرية",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s36",
+   "name": "جوجل نيوز: تكنولوجيا",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s37",
+   "name": "جوجل نيوز: تكنولوجيا مصر",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s38",
+   "name": "جوجل نيوز: ثقافة وفن",
+   "ok": true,
+   "new": 1
+  },
+  {
+   "id": "s39",
+   "name": "جوجل نيوز: الفن المصري",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s40",
+   "name": "جوجل نيوز: علوم ومنوعات",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s41",
+   "name": "جوجل نيوز: تعليم",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s42",
+   "name": "جوجل نيوز: حوادث",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s43",
+   "name": "جوجل نيوز: البرلمان المصري",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s44",
+   "name": "جوجل نيوز: محافظة الغربية",
+   "ok": true,
+   "new": 4
+  },
+  {
+   "id": "s45",
+   "name": "جوجل نيوز: المحلة الكبرى",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s46",
+   "name": "جوجل نيوز: شؤون دولية",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s47",
+   "name": "جوجل نيوز: مقالات رأي",
+   "ok": true,
+   "new": 3
+  },
+  {
+   "id": "s48",
+   "name": "جوجل نيوز: تحقيقات وتقارير",
+   "ok": true,
+   "new": 0
   }
  ]
 }
