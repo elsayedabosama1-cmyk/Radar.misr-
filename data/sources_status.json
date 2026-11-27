@@ -1,7 +1,7 @@
 {
- "at": 1795745892497,
- "published": 79,
- "queued": 17,
+ "at": 1795777324070,
+ "published": 66,
+ "queued": 30,
  "sources": [
   {
    "id": "s01",
@@ -13,7 +13,7 @@
    "id": "s02",
    "name": "DW عربية",
    "ok": true,
-   "new": 2
+   "new": 3
   },
   {
    "id": "s03",
@@ -36,8 +36,9 @@
   {
    "id": "s06",
    "name": "جوجل نيوز: عالمي",
-   "ok": true,
-   "new": 3
+   "ok": false,
+   "new": 0,
+   "err": "HTTP Error 429: Too Many Requests"
   },
   {
    "id": "s07",
@@ -73,7 +74,7 @@
    "id": "s12",
    "name": "المصري اليوم",
    "ok": true,
-   "new": 3
+   "new": 0
   },
   {
    "id": "s13",
@@ -102,8 +103,9 @@
   {
    "id": "s17",
    "name": "الدستور (جوجل نيوز)",
-   "ok": true,
-   "new": 3
+   "ok": false,
+   "new": 0,
+   "err": "HTTP Error 429: Too Many Requests"
   },
   {
    "id": "s18",
@@ -162,14 +164,15 @@
   {
    "id": "s27",
    "name": "جوجل نيوز: اقتصاد",
-   "ok": true,
-   "new": 1
+   "ok": false,
+   "new": 0,
+   "err": "HTTP Error 429: Too Many Requests"
   },
   {
    "id": "s28",
    "name": "جوجل نيوز: البورصة المصرية",
    "ok": true,
-   "new": 1
+   "new": 0
   },
   {
    "id": "s29",
@@ -180,8 +183,9 @@
   {
    "id": "s30",
    "name": "جوجل نيوز: الدولار والعملات",
-   "ok": true,
-   "new": 3
+   "ok": false,
+   "new": 0,
+   "err": "HTTP Error 429: Too Many Requests"
   },
   {
    "id": "s31",
@@ -193,13 +197,13 @@
    "id": "s32",
    "name": "i24NEWS العربية (جوجل نيوز)",
    "ok": true,
-   "new": 2
+   "new": 10
   },
   {
    "id": "s33",
    "name": "جوجل نيوز: الشأن الإسرائيلي",
    "ok": true,
-   "new": 15
+   "new": 20
   }
  ]
 }
